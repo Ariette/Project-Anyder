@@ -37,11 +37,14 @@ namespace Garland.Data.Modules
                 var sResident = unlock.TripleTriadCard.TripleTriadCardResident;
 
                 item.tripletriad = new JObject();
+                item.tripletriad.id = sResident.Key;
+                /* No need description, type -> replaced by id
                 _builder.Localize.Strings(item.tripletriad, unlock.TripleTriadCard, "Description");
 
                 var type = sResident.TripleTriadCardType.Name.ToString();
                 if (!string.IsNullOrEmpty(type))
                     item.tripletriad.type = type;
+                */
 
                 if (sResident.SaleValue > 0)
                     item.tripletriad.sellMgp = sResident.SaleValue;

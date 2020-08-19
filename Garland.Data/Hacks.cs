@@ -70,7 +70,6 @@ namespace Garland.Data
                 return "Exploration Achievement Rewards";
             else if (si.Label == "FREE_SHOP_GRANDCOMPANY" && si.Argument == 1769906)
                 return "Grand Company Achievement Rewards";
-
             else if (si.Label == "SPSHOP_HANDLER_ID" && si.Argument == 1770041)
                 return "Skybuilders' Scrips";
             else if (si.Label == "SPSHOP2_HANDLER_ID" && si.Argument == 1770281)

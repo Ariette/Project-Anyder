@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -229,6 +230,18 @@ namespace Garland.Data.Modules
         {
             var viewsByNodeId = new Dictionary<int, dynamic>();
 
+            // Lookup coordinates from ffxiv-teamcraft data.
+            var text = System.IO.File.ReadAllText(System.IO.Path.Combine(Config.SupplementalPath, "nodes.json"));
+            dynamic _nodes = JsonConvert.DeserializeObject(text);
+            var nodeList = _builder.Db.NodesById;
+            foreach (var nodeItem in nodeList)
+            {
+                var _node = _nodes[nodeItem.Key.ToString()];
+                var node = nodeItem.Value;
+                if (_node != null && _node.x != null && _node.y != null)
+                    node.coords = new JArray { _node.x, _node.y };
+            }
+
             var lines = Utils.Tsv(System.IO.Path.Combine(Config.SupplementalPath, "FFXIV Data - Nodes.tsv"));
             foreach (var line in lines.Skip(1))
             {
@@ -237,7 +250,6 @@ namespace Garland.Data.Modules
                 var nodeId = int.Parse(line[2]);
                 var times = Utils.IntComma(line[3]);
                 var uptime = int.Parse(line[4]);
-                var coords = Utils.FloatComma(line[5]);
                 var type = line[6];
 
                 var item = _builder.Db.ItemsByName[itemName];
@@ -249,8 +261,6 @@ namespace Garland.Data.Modules
 
                 node.limitType = type;
                 node.uptime = uptime;
-                if (coords != null)
-                    node.coords = new JArray(coords);
                 node.time = new JArray(times);
 
                 if (node.areaid == null)

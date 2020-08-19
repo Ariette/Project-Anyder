@@ -20,7 +20,7 @@ namespace Garland.Data.Output
         Dictionary<Tuple<string, string>, Dictionary<string, JObject>> _partialsByLangTypeById = new Dictionary<Tuple<string, string>, Dictionary<string, JObject>>();
         Dictionary<dynamic, dynamic> _ingredientsByItem = new Dictionary<dynamic, dynamic>();
         readonly static JsonConverter[] _converters = new[] { new WrapperConverter() };
-        readonly static string[] _languagesCodes = new[] { "en", "ja", "de", "fr" };
+        readonly static string[] _languagesCodes = new[] { "en" };
 
         public JsOutput(UpdatePackage update)
         {
@@ -270,6 +270,7 @@ namespace Garland.Data.Output
                 partial.l = node.lvl;
                 partial.t = node.type;
                 partial.z = node.zoneid;
+                partial.p = node.coords;
 
                 if (node.stars != null)
                     partial.s = node.stars;
@@ -513,6 +514,8 @@ namespace Garland.Data.Output
                 _update.IncludeDocument((string)spot.id, "fishing", lang, 2, Wrapper(wrapper));
             });
 
+            /* No need to make fish.js
+
             // Garland Bell and FFXIVFisher data.
 
             var parts = new List<string>();
@@ -529,6 +532,8 @@ namespace Garland.Data.Output
 
             parts.Add("");
             FileDatabase.WriteFile("Garland.Web\\bell\\fish.js", string.Join(";\r\n\r\n", parts));
+
+            */
         }
 
         void WriteNodes(string lang)
@@ -540,10 +545,14 @@ namespace Garland.Data.Output
                 _update.IncludeDocument((string)node.id, "node", lang, 2, Wrapper(wrapper));
             });
 
+            /* No need to make nodes.js
+              
             // Garland Bell node data.
 
             var contents = "gt.bell.nodes = " + Json(_db.NodeViews, Formatting.Indented) + ";\r\n";
             FileDatabase.WriteFile("Garland.Web\\bell\\nodes.js", contents);
+
+            */
         }
 
         void WriteStatuses(string lang)
@@ -630,9 +639,6 @@ namespace Garland.Data.Output
 
             ingredient.id = item.id;
             ingredient.en = new JObject(new JProperty("name", item.en.name));
-            ingredient.ja = new JObject(new JProperty("name", item.ja.name));
-            ingredient.de = new JObject(new JProperty("name", item.de.name));
-            ingredient.fr = new JObject(new JProperty("name", item.fr.name));
             ingredient.icon = item.icon;
             ingredient.category = item.category;
             ingredient.ilvl = item.ilvl;

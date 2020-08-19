@@ -121,6 +121,7 @@ namespace Garland.Data.Modules
                         _gardeningSeeds.Add(sItem);
                 }
 
+                /* No need Libra Supplements -> replaced by FFXIV Data - Items.tsv
                 #region Libra Supplement
                 libraIndex.TryGetValue(sItem.Key, out var lItem);
 
@@ -171,6 +172,7 @@ namespace Garland.Data.Modules
                     }
                 }
                 #endregion
+                */
 
                 //todo: item.repair_price = ? Not important
 

@@ -37,12 +37,6 @@ namespace Garland.Data.Modules
             fccredit.en = new JObject();
             fccredit.en.description = "Credits for the enrichment of an Eorzean free company.";
             fccredit.en.name = "Company Credit";
-            fccredit.fr = new JObject();
-            fccredit.fr.name = "Company Credit";
-            fccredit.de = new JObject();
-            fccredit.de.name = "Company Credit";
-            fccredit.ja = new JObject();
-            fccredit.ja.name = "Company Credit";
             fccredit.ilvl = 1;
             fccredit.category = 63; // Other
             fccredit.icon = "custom/fccredit";

@@ -32,9 +32,12 @@ namespace Garland.Data.Modules
                 var item = _builder.Db.ItemsById[sItem.Key];
                 item.mount = new JObject();
                 item.mount.name = Utils.CapitalizeWords(sMount.Singular.ToString());
+                /* No need action, description, tooltip -> replaced by id
                 item.mount.action = sMountTransient[0].ToString();
                 item.mount.description = sMountTransient[1].ToString();
                 item.mount.tooltip = HtmlStringFormatter.Convert((XivString)sMountTransient[2]);
+                */
+                item.mount.id = sMount.Key;
 
                 // Icons
                 var iconIndex = (UInt16)sMount.SourceRow.GetRaw("Icon");

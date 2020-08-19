@@ -19,16 +19,20 @@ namespace Garland.Data.Modules
         {
             _venturesByName = _builder.Db.Ventures.Where(v => v.name != null).ToDictionary(v => (string)v.name);
 
-            var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Items.tsv"));
-            foreach (var line in lines.Skip(1))
+            var Items = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Items.tsv")).Skip(1);
+            var lodestones = Utils.Tsv(Path.Combine(Config.SupplementalPath, "lodestones.tsv")).Skip(1);
+            var lines = Items.Concat(lodestones);
+            foreach (var line in lines)
             {
                 var type = line[1];
                 var args = line.Skip(2).Where(c => c != "").ToArray();
                 var itemName = line[0];
 
+                if (itemName.StartsWith("#")) continue;
+
                 try
                 {
-                    var item = _builder.Db.ItemsByName[itemName];
+                    var item = _builder.Db.ItemsByName.ContainsKey(itemName) ? _builder.Db.ItemsByName[itemName] : _builder.Db.ItemsByName[itemName + " "]; // Some item names in database are not trimmed...
 
                     switch (type)
                     {
@@ -68,6 +72,10 @@ namespace Garland.Data.Modules
                             BuildGardening(item, args);
                             break;
 
+                        case "Drop":
+                            BuildDrop(item, args);
+                            break;
+
                         case "Other":
                             BuildOther(item, args);
                             break;
@@ -103,8 +111,15 @@ namespace Garland.Data.Modules
         {
             foreach (string seedItemName in sources)
             {
-                var seedItem = _builder.Db.ItemsByName[seedItemName];
-                Items.AddGardeningPlant(_builder, seedItem, item);
+                try
+                {
+                    var seedItem = _builder.Db.ItemsByName[seedItemName];
+                    Items.AddGardeningPlant(_builder, seedItem, item);
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Gardening '{seedItemName}' of '{item.en.name}' : {ex.Message}");
+                }
             }
         }
 
@@ -115,14 +130,53 @@ namespace Garland.Data.Modules
 
             foreach (string itemName in sources)
             {
-                var desynthItem = _builder.Db.ItemsByName[itemName];
-                item.desynthedFrom.Add((int)desynthItem.id);
-                _builder.Db.AddReference(item, "item", (int)desynthItem.id, false);
+                try
+                {
+                    var desynthItem = _builder.Db.ItemsByName[itemName];
+                    item.desynthedFrom.Add((int)desynthItem.id);
+                    _builder.Db.AddReference(item, "item", (int)desynthItem.id, false);
 
-                if (desynthItem.desynthedTo == null)
-                    desynthItem.desynthedTo = new JArray();
-                desynthItem.desynthedTo.Add((int)item.id);
-                _builder.Db.AddReference(desynthItem, "item", (int)item.id, false);
+                    if (desynthItem.desynthedTo == null)
+                        desynthItem.desynthedTo = new JArray();
+                    desynthItem.desynthedTo.Add((int)item.id);
+                    _builder.Db.AddReference(desynthItem, "item", (int)item.id, false);
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Desynth '{itemName}' of '{item.en.name}' : {ex.Message}");
+                }
+            }
+        }
+
+        void BuildDrop(dynamic item, string[] sources)
+        {
+            if (item.drops == null)
+                item.drops = new JArray();
+
+            foreach (string mobName in sources)
+            {
+                try
+                {
+                    var mob = _builder.Db.Mobs.First(n => String.Equals(n.en.name.ToString(), mobName, StringComparison.CurrentCultureIgnoreCase));
+                    if (!item.drops.Contains((long)mob.id))
+                    {
+                        item.drops.Add((long)mob.id);
+                        _builder.Db.AddReference(item, "mob", (string)mob.id, false);
+                    }
+
+                    if (mob.drops == null)
+                        mob.drops = new JArray();
+
+                    if (!mob.drops.Contains((int)item.id))
+                    {
+                        mob.drops.Add((int)item.id);
+                        _builder.Db.AddReference(mob, "item", (int)item.id, false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Mob '{mobName}' of '{item.en.name}' : {ex.Message}");
+                }
             }
         }
 
@@ -133,41 +187,48 @@ namespace Garland.Data.Modules
 
             foreach (string sourceItemName in sources)
             {
-                var sourceItem = _builder.Db.ItemsByName[sourceItemName];
-                if (sourceItem.reducesTo == null)
-                    sourceItem.reducesTo = new JArray();
-                sourceItem.reducesTo.Add((int)item.id);
-                item.reducedFrom.Add((int)sourceItem.id);
-
-                _builder.Db.AddReference(sourceItem, "item", (int)item.id, false);
-                _builder.Db.AddReference(item, "item", (int)sourceItem.id, true);
-
-                // Set aetherial reduction info on the gathering node views.
-                // Bell views
-                foreach (var nodeView in _builder.Db.NodeViews)
+                try
                 {
-                    foreach (var slot in nodeView.items)
+                    var sourceItem = _builder.Db.ItemsByName[sourceItemName];
+                    if (sourceItem.reducesTo == null)
+                        sourceItem.reducesTo = new JArray();
+                    sourceItem.reducesTo.Add((int)item.id);
+                    item.reducedFrom.Add((int)sourceItem.id);
+
+                    _builder.Db.AddReference(sourceItem, "item", (int)item.id, false);
+                    _builder.Db.AddReference(item, "item", (int)sourceItem.id, true);
+
+                    // Set aetherial reduction info on the gathering node views.
+                    // Bell views
+                    foreach (var nodeView in _builder.Db.NodeViews)
                     {
-                        if (slot.id == sourceItem.id && slot.reduce == null)
+                        foreach (var slot in nodeView.items)
                         {
-                            slot.reduce = new JObject();
-                            slot.reduce.item = item.en.name;
-                            slot.reduce.icon = item.icon;
+                            if (slot.id == sourceItem.id && slot.reduce == null)
+                            {
+                                slot.reduce = new JObject();
+                                slot.reduce.item = item.en.name;
+                                slot.reduce.icon = item.icon;
+                            }
+                        }
+                    }
+
+                    // Database views
+                    foreach (var node in _builder.Db.Nodes)
+                    {
+                        foreach (var slot in node.items)
+                        {
+                            if (slot.id == sourceItem.id && slot.reduceId == null)
+                            {
+                                slot.reduceId = (int)item.id;
+                                _builder.Db.AddReference(node, "item", (int)item.id, false);
+                            }
                         }
                     }
                 }
-
-                // Database views
-                foreach (var node in _builder.Db.Nodes)
+                catch (Exception ex)
                 {
-                    foreach (var slot in node.items)
-                    {
-                        if (slot.id == sourceItem.id && slot.reduceId == null)
-                        {
-                            slot.reduceId = (int)item.id;
-                            _builder.Db.AddReference(node, "item", (int)item.id, false);
-                        }
-                    }
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Reduce '{sourceItemName}' of '{item.en.name}' : {ex.Message}");
                 }
             }
         }
@@ -183,27 +244,42 @@ namespace Garland.Data.Modules
                 if (generator.loot == null)
                     generator.loot = new JArray();
 
-                generator.loot.Add((int)item.id);
-                _builder.Db.AddReference(generator, "item", (int)item.id, false);
-
-                item.treasure.Add((int)generator.id);
-                _builder.Db.AddReference(item, "item", (int)generator.id, true);
+                if (!generator.loot.Contains((int)item.id))
+                {
+                    generator.loot.Add((int)item.id);
+                    _builder.Db.AddReference(generator, "item", (int)item.id, false);
+                }
+                if (!item.treasure.Contains((int)generator.id))
+                {
+                    item.treasure.Add((int)generator.id);
+                    _builder.Db.AddReference(item, "item", (int)generator.id, true);
+                }
             }
         }
 
         void BuildVentures(dynamic item, string[] sources)
         {
-            if (item.ventures != null)
-                throw new InvalidOperationException("item.ventures already exists.");
             var ventureIds = sources.Select(j => (int)_venturesByName[j].id);
-            item.ventures = new JArray(ventureIds);
+            if (item.ventures == null)
+            {
+                item.ventures = new JArray(ventureIds);
+            }
+            else
+            {
+                item.ventures.Merge(new JArray(ventureIds), new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+            }
         }
 
         void BuildVoyages(dynamic item, string[] sources)
         {
-            if (item.voyages != null)
-                throw new InvalidOperationException("item.voyages already exists.");
-            item.voyages = new JArray(sources);
+            if (item.voyages == null)
+            {
+                item.voyages = new JArray(sources);
+            }
+            else
+            {
+                item.voyages.Merge(new JArray(sources), new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+            }
         }
 
         void BuildNodes(dynamic item, string[] sources)
@@ -256,15 +332,29 @@ namespace Garland.Data.Modules
 
             foreach (var name in sources)
             {
-                var instance = _builder.Db.Instances.First(i => i.en.name == name);
-                int instanceId = instance.id;
-                if (instance.rewards == null)
-                    instance.rewards = new JArray();
-                instance.rewards.Add(itemId);
-                item.instances.Add(instanceId);
+                try
+                {
+                    var instance = _builder.Db.Instances.First(i => i.en.name == name);
+                    int instanceId = instance.id;
+                    if (instance.rewards == null)
+                        instance.rewards = new JArray();
 
-                _builder.Db.AddReference(instance, "item", itemId, false);
-                _builder.Db.AddReference(item, "instance", instanceId, true);
+                    if (!instance.rewards.Contains(itemId))
+                    {
+                        instance.rewards.Add(itemId);
+                        _builder.Db.AddReference(instance, "item", itemId, false);
+                    }
+                    
+                    if (!item.instances.Contains(instanceId))
+                    {
+                        item.instances.Add(instanceId);
+                        _builder.Db.AddReference(item, "instance", instanceId, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Reduce '{name}' of '{item.en.name}' : {ex.Message}");
+                }
             }
         }
     }

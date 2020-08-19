@@ -15,6 +15,43 @@ namespace Garland.Data.Modules
 
         public override string Name => "Mobs";
 
+        void IndexMobData()
+        {
+            var viewsByNodeId = new Dictionary<int, dynamic>();
+            // Lookup mob data from /Supplemental/mob.json.
+            var text = System.IO.File.ReadAllText(System.IO.Path.Combine(Config.SupplementalPath, "mob.json"));
+            dynamic _mobs = JsonConvert.DeserializeObject(text);
+            var mobList = _builder.Sheet<Saint.BNpcName>();
+            foreach (var mobItem in mobList)
+            {
+                if (_mobs[mobItem.Singular.ToString().ToLower()] != null)
+                {
+                    int i = 1;
+                    foreach (var mob in _mobs[mobItem.Singular.ToString().ToLower()])
+                    {
+                        var FullKey = ( 10000000000 * i ) + mobItem.Key;
+                        if (!_bnpcDataByFullKey.TryGetValue(FullKey, out var bnpcData))
+                        {
+                            bnpcData = new BNpcData();
+                            bnpcData.FullKey = FullKey;
+                            bnpcData.DebugName = mob.name;
+                            bnpcData.BNpcNameKey = mobItem.Key;
+                            bnpcData.BNpcBaseKey = i;
+                            var location = new BNpcLocation();
+                            location.PlaceNameKey = _builder.Sheet<Saint.PlaceName>().First(W => W.Name.ToString() == mob.zone.ToString()).Key;
+                            location.X = Convert.ToDouble(mob.x);
+                            location.Y = Convert.ToDouble(mob.y);
+                            location.Z = 0.0;
+                            location.LevelRange = mob.lv ?? "??";
+                            bnpcData.Locations.Add(location);
+                            _bnpcDataByFullKey[FullKey] = bnpcData;
+                        }
+                        i++;
+                    }
+                }
+            }
+        }
+
         void IndexLibraData()
         {
             var sTerritoryTypes = _builder.Sheet<Saint.TerritoryType>();
@@ -118,6 +155,7 @@ namespace Garland.Data.Modules
         {
             IndexLibraData();
             IndexSapphireData();
+            IndexMobData();
 
             var sBNpcNames = _builder.Sheet<Saint.BNpcName>();
             var sBNpcBases = _builder.Sheet<Saint.BNpcBase>();
@@ -150,6 +188,7 @@ namespace Garland.Data.Modules
                     mob.lvl = location.LevelRange;
                 }
 
+
                 if (_builder.ItemDropsByMobId.TryGetValue(bnpcData.FullKey, out var itemDropIds))
                 {
                     mob.drops = new JArray(itemDropIds);
@@ -164,10 +203,11 @@ namespace Garland.Data.Modules
                     _builder.Db.AddReference(mob, "instance", instanceId, false);
                     _builder.Db.AddReference(_builder.Db.InstancesById[instanceId], "mob", bnpcData.FullKey.ToString(), false);
                 }
-
                 var currency = _builder.GetBossCurrency(bnpcData.FullKey);
                 if (currency != null)
                     mob.currency = currency;
+                
+
 
                 // todo: modelchara info
                 // todo: NpcEquip for equipment
