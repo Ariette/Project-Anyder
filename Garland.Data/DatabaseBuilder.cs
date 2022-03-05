@@ -120,7 +120,7 @@ namespace Garland.Data
                 new SupplyDuties(itemSourceComplexityModule),
                 new Maps(),
                 new Territories(),
-                new EquipmentScorer(),
+                // new EquipmentScorer(),
                 new Jobs(),
                 new Dyes(),
                 new NpcEquipment(itemSourceComplexityModule),

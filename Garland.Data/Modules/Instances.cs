@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Saint = SaintCoinach.Xiv;
 using System.Text.RegularExpressions;
+using Garland.Data.Helpers;
 
 namespace Garland.Data.Modules
 {
@@ -14,22 +15,10 @@ namespace Garland.Data.Modules
     {
         public override string Name => "Instances";
 
-        public Dictionary<string, dynamic> _instanceByName = new Dictionary<string, dynamic>();
-        Dictionary<string, int> _tomestoneIdByName = new Dictionary<string, int>();
         string _coordsRegex = @"X: ([0-9, \.]*) Y: ([0-9, \.]*)";
 
         public override void Start()
         {
-            // Index tomestone by their names
-            var sTomestonesItems = _builder.Sheet<Saint.TomestonesItem>()
-                    .Where(t => t.Tomestone.Key > 0)
-                    .OrderBy(t => t.Tomestone.Key)
-                    .ToArray();
-
-            _tomestoneIdByName[sTomestonesItems[0].Item.Name] = sTomestonesItems[0].Item.Key;
-            _tomestoneIdByName[sTomestonesItems[1].Item.Name] = sTomestonesItems[1].Item.Key;
-            _tomestoneIdByName[sTomestonesItems[2].Item.Name] = sTomestonesItems[2].Item.Key;
-            
             BuildDutyRoulette();
 
             BuildInstances();
@@ -88,13 +77,6 @@ namespace Garland.Data.Modules
 
                 _builder.Localize.Strings((JObject)instance, sContentFinderConditionTransient, "Description");
 
-                if (instance.en != null)
-                {
-                    if (!string.IsNullOrEmpty((string)instance.en.name))
-                    {
-                        _instanceByName[(string)instance.en.name] = instance;
-                    }
-                }
                 instance.time = (int)sInstanceContent.TimeLimit.TotalMinutes;
                 instance.min_lvl = sContentFinderCondition.RequiredClassJobLevel;
 
@@ -272,6 +254,7 @@ namespace Garland.Data.Modules
         void BuildSupplementalInstances()
         {
             JArray duties = (JArray)Utils.Json(Path.Combine(Config.SupplementalPath, "FFXIV Data - Duties.json"));
+            var instanceHelper = new TranslationHelper("ContentFinderCondition", "Name", "Content");
             foreach (dynamic jDuty in duties)
             {
                 // jump guildhests as it does not drop any thing.
@@ -281,12 +264,18 @@ namespace Garland.Data.Modules
                 }
 
                 // avoid accidents
-                if (!_instanceByName.TryGetValue(jDuty.name.Value, out dynamic instance))
+                string _name = jDuty.name;
+                // Fix worng name
+                _name = _name
+                    .Replace("Tam-Tara", "Tam–Tara")
+                    .Replace("Toto-Rak", "Toto–Rak");
+                if (!instanceHelper.ToLower().TryGetID(_name.ToLower(), out int _instanceId))
                 {
                     DatabaseBuilder.PrintLine("Failed to find instance named " + jDuty.name);
                     continue;
                 }
-
+                
+                var instance = _builder.Db.InstancesById[_instanceId];
                 var otherItemRewards = new JArray();
 
                 if (instance.fights == null)
@@ -354,6 +343,7 @@ namespace Garland.Data.Modules
         dynamic BuildSupplementalFight(dynamic instance, dynamic jFight, JArray otherItemRewards)
         {
             dynamic fight = new JObject();
+            var itemHelper = new TranslationHelper("Item");
 
             // Type
             if (jFight.chest != null)
@@ -376,10 +366,11 @@ namespace Garland.Data.Modules
                 foreach (dynamic jToken in jFight.token as JArray)
                 {
                     try
-                    {
+                    {   
+                        int _tomestoneId = itemHelper.GetID(jToken.name.Value);
                         dynamic currency = new JObject();
                         currencyArray.Add(currency);
-                        currency.id = _tomestoneIdByName[jToken.name.Value];
+                        currency.id = _tomestoneId;
                         currency.amount = jToken.amount;
                     } catch(KeyNotFoundException e)
                     {
@@ -404,9 +395,10 @@ namespace Garland.Data.Modules
                 {
                     foreach (dynamic jTreasureItem in jTreasureBox.items as JArray)
                     {
-                        if (_builder.Db.ItemsByName.TryGetValue(
-                            SanitizeItemName(jTreasureItem.Value), out dynamic item))
+                        if (itemHelper.TryGetID(
+                            SanitizeItemName(jTreasureItem.Value), out int _id))
                         {
+                            var item = _builder.Db.ItemsById[_id];
                             cofferItems.Add(item.id);
                             BuildItemRelationship(item, instance, true);
                         }
@@ -424,9 +416,10 @@ namespace Garland.Data.Modules
             {
                 foreach (dynamic jDrop in jFight.drops as JArray)
                 {
-                    if (_builder.Db.ItemsByName.TryGetValue(
-                        SanitizeItemName(jDrop.name.Value), out dynamic item))
+                    if (itemHelper.TryGetID(
+                        SanitizeItemName(jDrop.name.Value), out int _id))
                     {
+                        var item = _builder.Db.ItemsById[_id];
                         otherItemRewards.Add(item.id);
                         BuildItemRelationship(item, instance, true);
                     }
@@ -444,15 +437,17 @@ namespace Garland.Data.Modules
         dynamic BuildSupplementalCoffer(dynamic instance, dynamic jCoffer)
         {
             dynamic coffer = new JObject();
+            var itemHelper = new TranslationHelper("Item");
 
             var cofferItems = new JArray();
             coffer.items = cofferItems;
 
             foreach (dynamic jTreasureItem in jCoffer.items as JArray)
             {
-                if (_builder.Db.ItemsByName.TryGetValue(
-                    SanitizeItemName(jTreasureItem.Value), out dynamic item))
-                {
+                if (itemHelper.TryGetID(
+                    SanitizeItemName(jTreasureItem.Value), out int _id))
+                {                    
+                    var item = _builder.Db.ItemsById[_id];
                     cofferItems.Add(item.id);
                     BuildItemRelationship(item, instance, true);
                 }

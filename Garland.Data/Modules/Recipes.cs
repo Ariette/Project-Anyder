@@ -171,7 +171,7 @@ namespace Garland.Data.Modules
 
                 var draft = _builder.CreateItem("draft" + sCompanyCraftDraft.Key);
                 _builder.Localize.Strings((JObject)draft, sCompanyCraftDraft, Utils.CapitalizeWords, "Name");
-                draft.en.description = "Unlocks company recipes for " + sCompanyCraftDraft.CompanyCraftDraftCategory.Name.ToString() + ".";
+                draft.ko.description = "부대 제작법 " + sCompanyCraftDraft.CompanyCraftDraftCategory.Name.ToString() + "을/를 해금한다.";
                 draft.ilvl = 1;
                 draft.category = -2;
                 draft.icon = "custom/draft";

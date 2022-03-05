@@ -20,7 +20,7 @@ namespace Garland.Data.Output
         Dictionary<Tuple<string, string>, Dictionary<string, JObject>> _partialsByLangTypeById = new Dictionary<Tuple<string, string>, Dictionary<string, JObject>>();
         Dictionary<dynamic, dynamic> _ingredientsByItem = new Dictionary<dynamic, dynamic>();
         readonly static JsonConverter[] _converters = new[] { new WrapperConverter() };
-        readonly static string[] _languagesCodes = new[] { "en", "ja", "de", "fr" };
+        readonly static string[] _languagesCodes = new[] { "en" };
 
         public JsOutput(UpdatePackage update)
         {
@@ -64,7 +64,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = action.id;
-                partial.n = (string)action[lang]["name"];
+                partial.n = action[lang] ? (string)action[lang]["name"] : (string)action.name;
                 partial.c = action.icon;
                 partial.j = action.job;
                 partial.t = action.category;
@@ -89,13 +89,13 @@ namespace Garland.Data.Output
                 else if (achievement.item != null)
                 {
                     var item = _db.ItemsById[(int)achievement.item];
-                    rewards.Add((string)item.en.name);
+                    rewards.Add((string)item.ko.name);
                 }
 
                 if (rewards.Count > 0)
                     partial.b = string.Join(", ", rewards);
                 else // todo: need to localize this
-                    partial.b = new string(((string)achievement.en.description).Take(50).ToArray());
+                    partial.b = new string(((string)achievement.ko.description).Take(50).ToArray());
 
                 achievements[(string)achievement.id] = partial;
             }
@@ -512,23 +512,6 @@ namespace Garland.Data.Output
                 AddPartials(wrapper, spot);
                 _update.IncludeDocument((string)spot.id, "fishing", lang, 2, Wrapper(wrapper));
             });
-
-            // Garland Bell and FFXIVFisher data.
-
-            var parts = new List<string>();
-
-            // Bait
-            var baitData = new JObject();
-            foreach (var bait in _db.Baits)
-                baitData.Add((string)bait.name, bait);
-            parts.Add("gt.bell.bait = " + Json(baitData, Formatting.Indented));
-
-            // Fish
-            var fishData = new JArray(_db.Fish);
-            parts.Add("gt.bell.fish = " + Json(fishData, Formatting.Indented));
-
-            parts.Add("");
-            FileDatabase.WriteFile("Garland.Web\\bell\\fish.js", string.Join(";\r\n\r\n", parts));
         }
 
         void WriteNodes(string lang)
@@ -539,11 +522,6 @@ namespace Garland.Data.Output
                 AddPartials(wrapper, node);
                 _update.IncludeDocument((string)node.id, "node", lang, 2, Wrapper(wrapper));
             });
-
-            // Garland Bell node data.
-
-            var contents = "gt.bell.nodes = " + Json(_db.NodeViews, Formatting.Indented) + ";\r\n";
-            FileDatabase.WriteFile("Garland.Web\\bell\\nodes.js", contents);
         }
 
         void WriteStatuses(string lang)
@@ -629,10 +607,7 @@ namespace Garland.Data.Output
             dynamic ingredient = new JObject();
 
             ingredient.id = item.id;
-            ingredient.en = new JObject(new JProperty("name", item.en.name));
-            ingredient.ja = new JObject(new JProperty("name", item.ja.name));
-            ingredient.de = new JObject(new JProperty("name", item.de.name));
-            ingredient.fr = new JObject(new JProperty("name", item.fr.name));
+            ingredient.en = new JObject(new JProperty("name", item.ko.name));
             ingredient.icon = item.icon;
             ingredient.category = item.category;
             ingredient.ilvl = item.ilvl;

@@ -4,3 +4,6 @@
 [submodule "Supplemental/FFXIV-Lodestone-Duty-Scraper"]
 	path = Supplemental/FFXIV-Lodestone-Duty-Scraper
 	url = https://github.com/ClayLivince/FFXIV-Lodestone-Duty-Scraper
+[submodule "lib/ffxiv-datamining"]
+	path = lib/ffxiv-datamining
+	url = https://github.com/xivapi/ffxiv-datamining.git

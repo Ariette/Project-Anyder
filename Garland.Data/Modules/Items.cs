@@ -40,10 +40,10 @@ namespace Garland.Data.Modules
                 .Where(bp => !string.IsNullOrEmpty(bp.Name))
                 .ToArray();
 
-            var gathererParamNames = new string[] { "GP", "Gathering", "Perception" };
+            var gathererParamNames = new string[] { "GP", "획득력", "기술력" };
             _gathererParams = gathererParamNames.Select(n => _baseParams.First(bp => bp.Name == n)).ToArray();
 
-            var crafterParamNames = new string[] { "CP", "Craftsmanship", "Control" };
+            var crafterParamNames = new string[] { "CP", "작업 숙련도", "가공 숙련도" };
             _crafterParams = crafterParamNames.Select(n => _baseParams.First(bp => bp.Name == n)).ToArray();
 
             foreach (var row in _builder.Sheet("Cabinet"))
@@ -65,7 +65,7 @@ namespace Garland.Data.Modules
                 var item = _builder.CreateItem(sItem.Key);
                 _builder.Localize.Strings(item, sItem, "Name");
                 _builder.Localize.HtmlStrings(item, sItem, "Description");
-                _builder.Db.ItemsByName[(string)item.en.name] = item;
+                _builder.Db.ItemsByName[(string)item.ko.name] = item;
                 item.patch = PatchDatabase.Get("item", sItem.Key);
                 item.patchCategory = PatchDatabase.GetPatchCategory(sItem);
                 item.price = sItem.Ask;
@@ -120,57 +120,6 @@ namespace Garland.Data.Modules
                     if (additionalData.Sheet.Name == "GardeningSeed")
                         _gardeningSeeds.Add(sItem);
                 }
-
-                #region Libra Supplement
-                libraIndex.TryGetValue(sItem.Key, out var lItem);
-
-                if (lItem != null && lItem.data != null)
-                {
-                    dynamic extraLibraData = JsonConvert.DeserializeObject(lItem.data);
-
-                    // Mob drops
-                    if (extraLibraData.bnpc != null && extraLibraData.bnpc.Count > 0)
-                    {
-                        var mobIds = new JArray();
-                        foreach (long mob in extraLibraData.bnpc)
-                        {
-                            mobIds.Add(mob);
-
-                            if (!_builder.ItemDropsByMobId.TryGetValue(mob, out var itemIds))
-                            {
-                                itemIds = new List<int>();
-                                _builder.ItemDropsByMobId[mob] = itemIds;
-                            }
-                            itemIds.Add(sItem.Key);
-                        }
-
-                        // References are added by Mobs module.
-                        item.drops = mobIds;
-                    }
-
-                    // Instances
-                    if (extraLibraData.instance_content != null)
-                    {
-                        foreach (int instanceId in extraLibraData.instance_content)
-                        {
-                            if (!_builder.Db.ItemsByInstanceId.TryGetValue(instanceId, out var instanceItems))
-                                _builder.Db.ItemsByInstanceId[instanceId] = instanceItems = new List<dynamic>();
-
-                            instanceItems.Add(item);
-
-                            if (item.instances == null)
-                                item.instances = new JArray();
-
-                            JArray itemInstances = item.instances;
-                            if (!itemInstances.Contains(instanceId))
-                            {
-                                itemInstances.Add(instanceId);
-                                _builder.Db.AddReference(item, "instance", instanceId, true);
-                            }
-                        }
-                    }
-                }
-                #endregion
 
                 //todo: item.repair_price = ? Not important
 

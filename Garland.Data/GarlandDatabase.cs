@@ -108,6 +108,7 @@ namespace Garland.Data
         public Dictionary<string, dynamic> SpearfishingNodesByName = new Dictionary<string, dynamic>();
         public Dictionary<int, dynamic> VenturesById = new Dictionary<int, dynamic>();
         public Dictionary<int, dynamic> StatusesById = new Dictionary<int, dynamic>();
+        public Dictionary<int, string> WeatherById = new Dictionary<int, string>();
 
         public Dictionary<SaintCoinach.Xiv.PlaceName, LocationInfo> LocationIndex;
 

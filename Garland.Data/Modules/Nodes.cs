@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Saint = SaintCoinach.Xiv;
+using Garland.Data.Helpers;
 
 namespace Garland.Data.Modules
 {
@@ -519,7 +520,7 @@ namespace Garland.Data.Modules
                         // Folklore things are legendary one
                         if (node.unlockId != null)
                         {
-                            node.limitType = "Legendary";
+                            node.limitType = "전설";
                         }
                         BuildNodeView(node);
                     }
@@ -578,7 +579,7 @@ namespace Garland.Data.Modules
                 {
                     dynamic item = _builder.Db.ItemsById[(int)nodeItem.id];
                     dynamic itemView = new JObject();
-                    itemView.item = item.en.name;
+                    itemView.item = item.ko.name;
                     itemView.icon = item.icon;
                     itemView.id = item.id;
 
@@ -596,10 +597,10 @@ namespace Garland.Data.Modules
         {
             switch (gatheringType)
             {
-                case 0: return "Mineral Deposit";
-                case 1: return "Rocky Outcropping";
-                case 2: return "Mature Tree";
-                case 3: return "Lush Vegetation";
+                case 0: return "광맥";
+                case 1: return "바위터";
+                case 2: return "성목";
+                case 3: return "약초밭";
                 default: throw new NotImplementedException();
             }
         }

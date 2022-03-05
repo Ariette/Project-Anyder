@@ -42,8 +42,10 @@ namespace Garland.Data
                         throw new NotImplementedException();
 
                 case TagType.Highlight:
-                    var content = genericElement.Content.Accept(this);
-                    return "<span class=\"highlight\">" + content + "</span>";
+                    {
+                        var content = genericElement.Content.Accept(this);
+                        return "<span class=\"highlight\">" + content + "</span>";
+                    }
 
                 case TagType.Sheet:
                     if (genericText == "<Sheet(Addon,9,0)/>")
@@ -66,12 +68,13 @@ namespace Garland.Data
                     {
                         var genericElementArgs = genericElement.Arguments.ToArray();
                         var sheetName = genericElementArgs[0].Accept(this);
+                        if (sheetName == "ItemHQ" || sheetName == "ItemMP") sheetName = "Item"; // escape fake sheet name
                         var sheetKeyRaw = genericElementArgs[1].Accept(this);
                         if (int.TryParse(sheetKeyRaw.Trim(), out var sheetKey))
                         {
                             var sheet = DatabaseBuilder.Instance.Realm.GameData.GetSheet(sheetName);
                             var row = sheet[sheetKey];
-                            var rowIndex = int.Parse(genericElementArgs[2].Accept(this).Trim());
+                            var rowIndex = genericElementArgs.Length > 2 ? int.Parse(genericElementArgs[2].Accept(this).Trim()) : 0;
                             return row[rowIndex].ToString();
                         }
                         return "[???]";
@@ -159,6 +162,40 @@ namespace Garland.Data
                     }
                 case TagType.UIGlow:
                     return ""; // Skip these.
+                case TagType.Postposition:
+                    {
+                        var content = defaultElement.Data.ToString();
+                        content = content.Substring(content.Length - 4);
+                        switch (content)
+                        {
+                            case "9DB4":
+                                return "이/가";
+                            case "9D84":
+                                return "을/를";
+                            case "9D80":
+                                return "은/는";
+                            case "9DBC":
+                                return "(이)라";
+                            default:
+                                DatabaseBuilder.PrintLine($"13 - {content}");
+                                return "";
+                        }
+                    }
+                case TagType.Postposition2:
+                    {
+                        var content = defaultElement.Data.ToString();
+                        content = content.Substring(content.Length - 4);
+                        switch (content)
+                        {
+                            case "A19C":
+                                return "(으)로";
+                            case "A1A0":
+                                return "로는";
+                            default:
+                                DatabaseBuilder.PrintLine($"14 - {content}");
+                                return "";
+                        }
+                    }
 
                 default:
                     throw new NotImplementedException();
@@ -304,6 +341,7 @@ namespace Garland.Data
                 case "F20223": return "highlight-purple";
                 case "F20215": return "highlight-yellow"; // Unsure about this one.  Used to note "Legacy of Allag" quest needs to be abandoned and reacquired.
                 case "F201FC": return "highlight-red";
+                case "F2023B": return "highlight-brown";
                 case "F102": return "highlight-blue"; // Only used by some dancer traits in German.  Maybe a bug?
 
                 default:

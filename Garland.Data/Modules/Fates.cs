@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game = SaintCoinach.Xiv;
+using Garland.Data.Helpers;
 
 namespace Garland.Data.Modules
 {
@@ -28,6 +29,8 @@ namespace Garland.Data.Modules
         void ImportSupplementalData()
         {
             var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Fates.tsv"));
+            var locationHelper = new TranslationHelper("PlaceName");
+            var itemHelper = new TranslationHelper("Item");
             foreach (var line in lines.Skip(1))
             {
                 var name = line[0];
@@ -42,7 +45,11 @@ namespace Garland.Data.Modules
                 fate.id = id;
 
                 if (zone != "")
-                    fate.zoneid = _builder.Db.LocationIdsByName[zone];
+                {
+                    if (!locationHelper.TryGetID(zone, out int _zoneId))
+                        DatabaseBuilder.PrintLine($"Unknown zone name: {zone}");
+                    fate.zoneid = _zoneId;
+                }
 
                 if (coords != "")
                     fate.coords = new JArray(Utils.FloatComma(coords));
@@ -52,7 +59,7 @@ namespace Garland.Data.Modules
                     var rewardItemNames = rewardItemNameStr.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var rewardItemName in rewardItemNames)
                     {
-                        var item = _builder.Db.ItemsByName[rewardItemName];
+                        var item = _builder.Db.ItemsById[itemHelper.GetID(rewardItemName)];
                         if (item.fates == null)
                             item.fates = new JArray();
                         item.fates.Add(id);

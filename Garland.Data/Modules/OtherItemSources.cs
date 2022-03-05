@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Garland.Data.Helpers;
 
 namespace Garland.Data.Modules
 {
@@ -14,10 +15,10 @@ namespace Garland.Data.Modules
         Dictionary<string, dynamic> _venturesByName;
 
         public override string Name => "Other Item Sources";
+        private static readonly TranslationHelper itemHelper = new TranslationHelper("Item");
 
         public override void Start()
         {
-            _venturesByName = _builder.Db.Ventures.Where(v => v.name != null).ToDictionary(v => (string)v.name);
 
             var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Items.tsv"));
             foreach (var line in lines.Skip(1))
@@ -32,7 +33,8 @@ namespace Garland.Data.Modules
 
                 try
                 {
-                    var item = _builder.Db.ItemsByName[itemName];
+                    var _id = itemHelper.GetID(itemName);
+                    var item = _builder.Db.ItemsById[_id];
 
                     switch (type)
                     {
@@ -107,7 +109,13 @@ namespace Garland.Data.Modules
         {
             foreach (string seedItemName in sources)
             {
-                var seedItem = _builder.Db.ItemsByName[seedItemName];
+                if (!itemHelper.TryGetID(seedItemName, out var _id))
+                {
+                    DatabaseBuilder.PrintLine($"Error with parsing '{seedItemName}' of {item.ko.name}");
+                    continue;
+                }
+
+                var seedItem = _builder.Db.ItemsById[_id];
                 Items.AddGardeningPlant(_builder, seedItem, item);
             }
         }
@@ -119,7 +127,14 @@ namespace Garland.Data.Modules
 
             foreach (string itemName in sources)
             {
-                var desynthItem = _builder.Db.ItemsByName[itemName];
+                
+                if (!itemHelper.TryGetID(itemName, out var _id))
+                {
+                    DatabaseBuilder.PrintLine($"Error with parsing '{itemName}' of {item.ko.name}");
+                    continue;
+                }
+
+                var desynthItem = _builder.Db.ItemsById[_id];
                 item.desynthedFrom.Add((int)desynthItem.id);
                 _builder.Db.AddReference(item, "item", (int)desynthItem.id, false);
 
@@ -137,7 +152,13 @@ namespace Garland.Data.Modules
 
             foreach (string sourceItemName in sources)
             {
-                var sourceItem = _builder.Db.ItemsByName[sourceItemName];
+                if (!itemHelper.TryGetID(sourceItemName, out var _id))
+                {
+                    DatabaseBuilder.PrintLine($"Error with parsing '{sourceItemName}' of {item.ko.name}");
+                    continue;
+                }
+
+                var sourceItem = _builder.Db.ItemsById[_id];
                 if (sourceItem.reducesTo == null)
                     sourceItem.reducesTo = new JArray();
                 sourceItem.reducesTo.Add((int)item.id);
@@ -155,7 +176,7 @@ namespace Garland.Data.Modules
                         if (slot.id == sourceItem.id && slot.reduce == null)
                         {
                             slot.reduce = new JObject();
-                            slot.reduce.item = item.en.name;
+                            slot.reduce.item = item.ko.name;
                             slot.reduce.icon = item.icon;
                         }
                     }
@@ -181,9 +202,10 @@ namespace Garland.Data.Modules
             if (item.treasure == null)
                 item.treasure = new JArray();
 
-            var generators = sources.Select(j => _builder.Db.ItemsByName[j]).ToArray();
-            foreach (var generator in generators)
+            var generators = sources.Select(j => itemHelper.GetID(j)).ToArray();
+            foreach (var _id in generators)
             {
+                var generator = _builder.Db.ItemsById[_id];
                 if (generator.loot == null)
                     generator.loot = new JArray();
 
@@ -199,7 +221,11 @@ namespace Garland.Data.Modules
         {
             if (item.ventures != null)
                 throw new InvalidOperationException("item.ventures already exists.");
-            var ventureIds = sources.Select(j => (int)_venturesByName[j].id);
+            var ventureNameHelper = new TranslationHelper("RetainerTaskRandom");
+            var ventureHelper = new TranslationHelper("RetainerTask", "Task");
+            var ventureIds = sources
+                .Select(j => ventureHelper.GetID(ventureNameHelper.GetID(j).ToString()))
+                .ToArray();
             item.ventures = new JArray(ventureIds);
         }
 
@@ -236,14 +262,21 @@ namespace Garland.Data.Modules
         {
             if (item.fishingSpots == null)
                 item.fishingSpots = new JArray();
-
+            
+            var locationHelper = new TranslationHelper("PlaceName");
             foreach (var name in sources)
             {
+                if (!locationHelper.TryGetID(name, out var _locationId)) {
+                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.ko.name}");
+                    continue;
+                }
+
+                var _name = _builder.Db.LocationsById[_locationId].name;
                 dynamic w = new JObject();
                 w.id = (int)item.id;
                 w.lvl = (int)item.ilvl;
 
-                var spot = _builder.Db.FishingSpots.First(f => f.name == name);
+                var spot = _builder.Db.FishingSpots.First(f => f.name == _name);
                 item.fishingSpots.Add((int)spot.id);
                 spot.items.Add(w);
 
@@ -257,10 +290,19 @@ namespace Garland.Data.Modules
                 item.instances = new JArray();
 
             int itemId = item.id;
-
+            var instanceHelper = new TranslationHelper("ContentFinderCondition");
             foreach (var name in sources)
-            {
-                var instance = _builder.Db.Instances.First(i => i.en.name.ToString().ToUpper() == name.ToUpper());
+            {                   
+                // Fix wrong name
+                var _name = name
+                    .Replace("Heaven-on-High (", "Heaven-on-High  (")
+                    .ToLower();
+                if (!instanceHelper.ToLower().TryGetID(_name, out var _id))
+                {
+                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.ko.name}");
+                    continue;
+                }
+                var instance = _builder.Db.InstancesById[_id];
                 int instanceId = instance.id;
                 if (instance.rewards == null)
                     instance.rewards = new JArray();

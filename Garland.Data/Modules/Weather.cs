@@ -25,9 +25,13 @@ namespace Garland.Data.Modules
             foreach (var sWeather in _builder.Sheet<Saint.Weather>())
             {
                 var name = sWeather.Name.ToString();
+                if (string.IsNullOrEmpty(name))
+                    continue;
+
+                _builder.Db.WeatherById.Add(sWeather.Key, sWeather.Name);
 
                 // This one is corrupted
-                if ("CutScene".Equals(name))
+                if ("●설명용 날씨".Equals(name))
                     continue;
 
                 var iconPath = Path.Combine(baseIconPath, name + ".png");

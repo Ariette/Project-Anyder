@@ -25,7 +25,7 @@ namespace Garland.UI.Views
         private void StartCalibration(CalibrationConfig config)
         {
             var libraPath = System.IO.Path.Combine(Config.SupplementalPath, "app_data.sqlite");
-            var realm = new SaintCoinach.ARealmReversed(Config.GamePath, "SaintCoinach.History.zip", SaintCoinach.Ex.Language.English, libraPath);
+            var realm = new SaintCoinach.ARealmReversed(Config.GamePath, "SaintCoinach.History.zip", SaintCoinach.Ex.Language.Korean, libraPath);
             DatabaseBuilder.PrintLine($"Game version: {realm.GameVersion}");
             DatabaseBuilder.PrintLine($"Definition version: {realm.DefinitionVersion}");
             var processing = Stopwatch.StartNew();

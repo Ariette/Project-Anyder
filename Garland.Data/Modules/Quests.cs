@@ -472,8 +472,18 @@ namespace Garland.Data.Modules
                     || rawString == "Marked for deletion"
                     || string.IsNullOrWhiteSpace(rawString))
                     continue;
+                
+                string str;
+                try
+                {
+                    str = HtmlStringFormatter.Convert(row.XivString);
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"======\n{rawString}\n{ex}");
+                    str = rawString;
+                }
 
-                var str = HtmlStringFormatter.Convert(row.XivString);
                 //if (str.Contains("Aye, an anima weapon")) // Has IntegerParameter(1) [Error] - need to pass proper eval parameters in.
                 //    System.Diagnostics.Debugger.Break();
 
