@@ -115,6 +115,8 @@ namespace Garland.Data.Modules
 
                 _builder.Db.AddLocationReference((int)location.parentId);
             }
+
+            _builder.Db.LocationIndex = locationIndex;
         }
 
         void HackApplyTownWeatherRates()
@@ -165,7 +167,9 @@ namespace Garland.Data.Modules
 
             // Bozja
             _builder.Db.AddLocationReference(3534);
+            _builder.Db.AddLocationReference(3662); // working on auto-filling
             locationsById[3534].weatherRate = 124; // fixme: should be auto-filled
+            locationsById[3662].weatherRate = 130; // fixme: should be auto-filled
 
             // Norvrandt
             _builder.Db.AddLocationReference(516); // The Crystarium

@@ -13,7 +13,7 @@ namespace Garland.Data
     public class GarlandDatabase
     {
         // NOTE: This section must be updated with every patch!
-        public const decimal NextPatch = 5.55m;
+        public const decimal NextPatch = 6.05m;
         public static Patch[] MajorPatches = new[] {
             new Patch(1m, "Legacy", "Legacy"),
 
@@ -44,6 +44,8 @@ namespace Garland.Data
             new Patch(5.3m, "Reflections in Crystal", "Shadowbringers"),
             new Patch(5.4m, "Futures Rewritten", "Shadowbringers"),
             new Patch(5.5m, "Death unto Dawn", "Shadowbringers"),
+
+            new Patch(6m, "Endwalker", "Endwalker"),
         };
 
         public static int LevelCap = -1; // Filled in from Miscellaneous.
@@ -106,6 +108,8 @@ namespace Garland.Data
         public Dictionary<string, dynamic> SpearfishingNodesByName = new Dictionary<string, dynamic>();
         public Dictionary<int, dynamic> VenturesById = new Dictionary<int, dynamic>();
         public Dictionary<int, dynamic> StatusesById = new Dictionary<int, dynamic>();
+
+        public Dictionary<SaintCoinach.Xiv.PlaceName, LocationInfo> LocationIndex;
 
         public static HashSet<string> LocalizedTypes = new HashSet<string>() { "achievement", "action", "fate", "fishing", "instance", "item", "leve", "quest", "npc", "mob", "status" };
 

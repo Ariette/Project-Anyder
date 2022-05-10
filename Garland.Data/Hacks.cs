@@ -342,6 +342,7 @@ namespace Garland.Data
                 case 96: // Samurai's Arm
                 case 106: // Gunbreaker's Arm
                 case 107: // Dancer's Arm
+                case 108: // Reaper's Arm
                     return "Physical Damage";
 
                 case 6: // One–handed Thaumaturge's Arm
@@ -353,6 +354,7 @@ namespace Garland.Data
                 case 97: // Red Mage's Arm
                 case 98: // Scholar's Arm
                 case 105: // Blue Mage's Arm
+                case 109: // Sage's Arm
                     return "Magic Damage";
 
                 default:

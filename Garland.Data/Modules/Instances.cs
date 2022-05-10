@@ -375,10 +375,16 @@ namespace Garland.Data.Modules
                 fight.currency = currencyArray;
                 foreach (dynamic jToken in jFight.token as JArray)
                 {
-                    dynamic currency = new JObject();
-                    currencyArray.Add(currency);
-                    currency.id = _tomestoneIdByName[jToken.name.Value];
-                    currency.amount = jToken.amount;
+                    try
+                    {
+                        dynamic currency = new JObject();
+                        currencyArray.Add(currency);
+                        currency.id = _tomestoneIdByName[jToken.name.Value];
+                        currency.amount = jToken.amount;
+                    } catch(KeyNotFoundException e)
+                    {
+                        DatabaseBuilder.PrintLine($"Tomestone named {jToken.name.Value} not found.");
+                    }
                 }
             }
 
@@ -422,7 +428,7 @@ namespace Garland.Data.Modules
                         SanitizeItemName(jDrop.name.Value), out dynamic item))
                     {
                         otherItemRewards.Add(item.id);
-                        BuildItemRelationship(item, instance, false);
+                        BuildItemRelationship(item, instance, true);
                     }
                     else
                     {

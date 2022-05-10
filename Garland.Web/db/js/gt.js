@@ -74,6 +74,15 @@ gt.model = {
         return result.length ? result : null;
     },
 
+    partialListArray: function(module, sourceLists, transform){
+        var result = [];
+        for (var i = 0; i < sourceLists.length; i++) {
+            result.push(gt.model.partialList(module, sourceLists[i], transform))
+        }
+
+        return result.length ? result : null;
+    },
+
     availableView: function(block) {
         var module = gt[block.type];
         if (!module) {
@@ -886,7 +895,7 @@ gt.core = {
             hash += '{' + contents.join('|') + '}';
         }
 
-        return hash;
+        return encodeURI(hash);
     },
 
     setHash: function($block) {
@@ -964,6 +973,10 @@ gt.core = {
     }
 };
 gt.util = {
+    abbrDict: {
+        "Lakeland": "Lk",
+        "Labyrinthos": "Lb",
+    },
     abbrCache: {},
 
     pascalCase: function(str) {
@@ -987,6 +1000,9 @@ gt.util = {
     },
 
     abbr2: function(str) {
+        if (gt.util.abbrDict[str])
+            return gt.util.abbrDict[str];
+
         var parts = str.trim().replace('(', '').split(' ');
         var a = parts[0].length ? parts[0][0] : '';
         if (parts.length == 1)
@@ -998,6 +1014,9 @@ gt.util = {
     abbr: function(str) {
         if (!str)
             return '';
+
+        if (gt.util.abbrDict[str])
+            return gt.util.abbrDict[str];
 
         if (gt.util.abbrCache[str])
             return gt.util.abbrCache[str];
@@ -1874,6 +1893,12 @@ gt.item = {
         'Careful Desynthesis': 'C. Desynthesis',
         'Critical Hit Rate': 'Critical Rate'
     },
+    fishShadowHint:{
+        'S': 'Small',
+        'M': 'Average',
+        'L': 'Large',
+        'Map': 'Treasure Map'
+    },
     // TODO: materiaJoinRates comes from core data, only here temporarily until old cache is removed.
     materiaJoinRates: {"nq":[[90,48,28,16],[82,44,26,16],[70,38,22,14],[58,32,20,12],[17,10,7,5],[17,0,0,0],[17,10,7,5],[17,0,0,0],[100,100,100,100],[100,100,100,100]],"hq":[[80,40,20,10],[72,36,18,10],[60,30,16,8],[48,24,12,6],[12,6,3,2],[12,0,0,0],[12,6,3,2],[12,0,0,0],[100,100,100,100],[100,100,100,100]]},
     browse: [ { type: 'sort', prop: 'name' } ],
@@ -2322,7 +2347,8 @@ gt.item = {
                 icon: '../files/icons/fish/' + item.fish.icon + '.png',
                 spots: item.fish.spots ? [] : null,
                 folklore: item.fish.folklore ? gt.model.partial(gt.item, item.fish.folklore) : null,
-                groups: []
+                groups: [],
+                note: item.fish.note,
             };
 
             if (item.fish.spots) {
@@ -2331,43 +2357,46 @@ gt.item = {
 
                     // Group fishing spots by bait chain.
                     var group = null;
-                    if (spot.bait || !spot.gig) {
-                        group = _.find(view.fish.groups, function(g) { return _.isEqual(g.baitIds, spot.bait); });
+                    if (spot.baits || !spot.node) {
+                        group = _.find(view.fish.groups, function(g) { return _.isEqual(g.baitIds, spot.baits); });
                         view.fish.predatorType = 'Predator';
+
+                        if (!group) {
+                            group = {
+                                baitIds: spot.baits,
+                                baits: spot.baits ? gt.model.partialListArray(gt.item, spot.baits) : null,
+                                gig: spot.gig,
+                                spots: []
+                            };
+
+                            view.fish.groups.push(group);
+                        }
+
+                        if (spot.hookset) {
+                            if (spot.hookset == "Powerful Hookset")
+                                view.fish.hooksetIcon = 1115;
+                            else
+                                view.fish.hooksetIcon = 1116;
+                        }
                     }
                     else {
-                        group = _.find(view.fish.groups, function(g) { return _.isEqual(g.gig, spot.gig); });
+                        group = _.find(view.fish.groups, function(g) { return _.isEqual(g.node, spot.node); });
                         view.fish.predatorType = 'Shadows';
+
+                        if (!group) {
+                            group = {
+                                speed: spot.speed,
+                                shadow: spot.shadow,
+                                shadowHint: gt.item.fishShadowHint[spot.shadow],
+                                buff: gt.model.partialList(gt.status, spot.buff),
+                                spots: []
+                            };
+
+                            view.fish.groups.push(group);
+                        }
                     }
 
-                    if (!group) {
-                        group = {
-                            baitIds: spot.bait,
-                            bait: spot.bait ? gt.model.partialList(gt.item, spot.bait) : null,
-                            gig: spot.gig,
-                            spots: []
-                        };
-
-                        view.fish.groups.push(group);
-                    }
-
-                    // Push common conditions up to the main fish view.
-                    view.fish.during = spot.during;
-                    view.fish.transition = spot.transition;
-                    view.fish.weather = spot.weather;
-                    view.fish.hookset = spot.hookset;
-                    view.fish.gatheringReq = spot.gatheringReq;
-                    view.fish.snagging = spot.snagging;
-                    view.fish.fishEyes = spot.fishEyes;
-
-                    if (spot.hookset) {
-                        if (spot.hookset == "Powerful Hookset")
-                            view.fish.hooksetIcon = 1115;
-                        else
-                            view.fish.hooksetIcon = 1116;
-                    }
-
-                    if (spot.predator) 
+                    if (spot.predator)
                         view.fish.predator = gt.model.partialList(gt.item, spot.predator, function(v, p) { return { item: v, amount: p.amount }; });
 
                     // List spots beneath the group.
@@ -2380,6 +2409,16 @@ gt.item = {
                         spotView.spotType = 'node';
                     }
                     group.spots.push(spotView);
+
+
+                    // Push common conditions up to the main fish view.
+                    view.fish.during = spot.during;
+                    view.fish.transition = spot.transition;
+                    view.fish.weather = spot.weather;
+                    view.fish.hookset = spot.hookset;
+                    view.fish.gatheringReq = spot.gatheringReq;
+                    view.fish.snagging = spot.snagging;
+                    view.fish.fishEyes = spot.fishEyes;
                 }
             }
         }
@@ -2404,6 +2443,34 @@ gt.item = {
                 path: '../files/orchestrion/' + item.orchestrion.id + '.ogg',
                 order: gt.util.zeroPad(item.orchestrion.order, 3)
             };
+        }
+
+        // Field Note
+        if (item.fieldnote) {
+            view.fieldnote = {
+                id: item.fieldnote.id,
+                name: item.fieldnote.name,
+                description: item.fieldnote.description,
+                icon: '../files/icons/fieldnote/' + item.fieldnote.icon + '.png',
+                image: '../files/icons/fieldnote/image/' + item.fieldnote.image + '.png',
+                rarity: item.fieldnote.rarity
+            };
+        }
+
+        // Fashion Accessory
+        if (item.ornament) {
+            view.ornament = {
+                id: item.ornament.id,
+                name: item.ornament.name,
+                description: item.ornament.description,
+                icon: '../files/icons/ornament/' + item.ornament.icon + '.png',
+                image: '../files/icons/ornament/image/' + item.ornament.image + '.png'
+            };
+        }
+
+        // Unlock Achievement
+        if (item.achievement) {
+            view.achievement = gt.model.partial(gt.achievement, item.achievement);
         }
 
         // Gardening
@@ -3175,30 +3242,30 @@ gt.npc = {
     getPartialIcon: function(partial) {
         if (partial.s) {
             if (partial.r)
-                return 'images/Trader.png'
+                return 'images/marker/Trader.png'
             else
-                return 'images/Shop.png';
+                return 'images/marker/Shop.png';
         }
 
         if (partial.q)
-            return 'images/Quest.png';
+            return 'images/marker/Quest.png';
 
         if (partial.k)
             return 'images/Journal.png';
 
-        return 'images/UnknownNpc.png';
+        return 'images/marker/UnknownNpc.png';
     },
 
     getIcon: function(npc) {
         if (npc.shops) {
             if (npc.trade)
-                return 'images/Trader.png'
+                return 'images/marker/Trader.png'
             else
-                return 'images/Shop.png';
+                return 'images/marker/Shop.png';
         }
 
         if (npc.quests)
-            return 'images/Quest.png';
+            return 'images/marker/Quest.png';
 
         if (npc.talk)
             return 'images/Journal.png';
@@ -3206,7 +3273,7 @@ gt.npc = {
         if (npc.appearance && npc.appearance.hairStyle)
             return '../files/icons/customize/' + npc.appearance.hairStyle + '.png';
         
-        return 'images/UnknownNpc.png';
+        return 'images/marker/UnknownNpc.png';
     },
 
     resolveCraftSource: function(step, id) {
@@ -3275,7 +3342,7 @@ gt.npc.timer.prototype.next = function(now) {
 
 gt.npc.timer.prototype.notify = function() {
     gt.util.showNotification(this.view.name, {
-        icon: 'images/TripleTriad.png',
+        icon: 'images/marker/TripleTriad.png',
         body: this.view.fullLocation || "Available for Triple Triad",
         tag: this.view.id
     });
@@ -3427,8 +3494,8 @@ gt.node = {
     version: 2,
     bonusIndex: null,
     limitedNodeUpdateKey: null,
-    types: ['Mineral Deposit', 'Rocky Outcropping', 'Mature Tree', 'Lush Vegetation', 'Spearfishing'],
-    jobAbbreviations: ['MIN', 'MIN', 'BTN', 'BTN', 'FSH'],
+    types: ['Mineral Deposit', 'Rocky Outcropping', 'Mature Tree', 'Lush Vegetation', 'Spearfishing', 'Spearfishing'],
+    jobAbbreviations: ['MIN', 'MIN', 'BTN', 'BTN', 'FSH', 'FSH'],
     browse: [
         { type: 'icon-list', prop: 'job' },
         { type: 'group', prop: 'region' },
@@ -3481,12 +3548,15 @@ gt.node = {
             obj: node
         };
 
-        var typePrefix = node.limitType ? (node.limitType + ' ') : '';
+        var typePrefix = '';
 
-        view.icon = 'images/' + view.category + '.png';
+        view.icon = 'images/node/' + view.category + '.png';
+        if (node.limitType) {
+            typePrefix = node.limitType + ' ';
+            view.icon = 'images/node/' + view.category + " Limited" + '.png';
+        }
         view.subheader = "Level " + node.lvl + gt.util.stars(node.stars) + ' ' + typePrefix + view.category;
 
-        var typePrefix = node.limitType ? node.limitType + ' ' : '';
         view.byline = 'Lv. ' + view.lvl + gt.util.stars(view.stars) + ' ' + typePrefix + view.category;
         view.category = typePrefix + view.category;
 
@@ -3504,7 +3574,7 @@ gt.node = {
             if (node.coords) {
                 view.map = gt.map.getViewModel({
                     location: view.zone, coords: node.coords, radius: node.radius, approx: node.radius ? 0 : 1,
-                    icon: view.icon, iconfilter: 'sepia(100%)'
+                    icon: view.icon
                 });
             }
 
@@ -3544,6 +3614,10 @@ gt.node = {
     getPartialViewModel: function(partial) {
         var name = gt.model.name(partial);
         var category = gt.node.types[partial.t];
+        var iconName = category;
+        if (partial.lt){
+            iconName += " Limited";
+        }
         var typePrefix = partial.lt ? (partial.lt + ' ') : '';
         var zone = gt.location.index[partial.z] || { name: 'Unknown' };
         var region = gt.location.index[zone.parentId];
@@ -3555,7 +3629,7 @@ gt.node = {
             sourceName: gt.util.abbr(zone.name) + ', Lv. ' + partial.l,
             longSourceName: name + ', ' + zone.name + ', Lv. ' + partial.l,
             byline: 'Lv. ' + partial.l + gt.util.stars(partial.s) + ' ' + typePrefix + category,
-            icon: 'images/' + category + '.png',
+            icon: 'images/node/' + iconName + '.png',
             job: gt.node.jobAbbreviations[partial.t],
             zone: zone,
             location: zone.name,
@@ -3736,7 +3810,7 @@ gt.fishing = {
     index: {},
     version: 2,
     partialIndex: {},
-    categories: ['Ocean Fishing', 'Freshwater Fishing', 'Dunefishing', 'Skyfishing', 'Cloudfishing', 'Hellfishing', 'Aetherfishing', 'Saltfishing'],
+    categories: ['Ocean Fishing', 'Freshwater Fishing', 'Dunefishing', 'Skyfishing', 'Cloudfishing', 'Hellfishing', 'Aetherfishing', 'Saltfishing', 'Starfishing'],
     browse: [
         { type: 'group', prop: 'region' },
         { type: 'group', prop: 'location' },
@@ -3760,13 +3834,13 @@ gt.fishing = {
             patch: gt.formatPatch(spot.patch),
             template: gt.fishing.blockTemplate,
             blockClass: 'node',
-            icon: 'images/FSH.png',
+            icon: 'images/job/FSH.png',
             settings: 1,
 
             lvl: spot.lvl,
             zone: spot.zoneid ? gt.location.index[spot.zoneid] : null,
             category: gt.fishing.categories[spot.category],
-            browseIcon: 'images/FSH.png'
+            browseIcon: 'images/job/FSH.png'
         };
 
         var zoneName = view.zone ? view.zone.name : "The Diadem";
@@ -3787,7 +3861,7 @@ gt.fishing = {
             if (view.zone) {
                 view.map = gt.map.getViewModel({
                     location: view.zone, coords: [spot.x, spot.y], radius: spot.radius, approx: spot.approx,
-                    icon: 'images/FSH.png', iconfilter: 'sepia(100%)'
+                    icon: 'images/job/FSH.png', iconfilter: 'sepia(100%)'
                 });
             }
         }
@@ -3813,7 +3887,7 @@ gt.fishing = {
             byline: 'Level ' + partial.l + ' ' + gt.fishing.categories[partial.c],
             region: region ? region.name : "Unknown",
             location: zoneName,
-            icon: 'images/FSH.png',
+            icon: 'images/job/FSH.png',
             lvl: partial.l
         };
     },
@@ -4512,6 +4586,8 @@ gt.settings = {
         botanyVentures: 0,
         fisherVentures: 0,
         combatVentures: 0,
+        preferGathering: 0,
+        preferCrafting: 0,
         isearchOnActivate: 0
     },
 
@@ -4683,6 +4759,14 @@ gt.settings = {
             .prop('checked', data.combatVentures)
             .change(gt.settings.preferCombatVenturesChanged);
 
+        $('#prefer-gathering')
+            .prop('checked', data.preferGathering)
+            .change(gt.settings.preferGarheringChanged);
+
+        $('#prefer-crafting')
+            .prop('checked', data.preferCrafting)
+            .change(gt.settings.preferCraftingChanged);
+
         $('#isearch-on-activate')
             .prop('checked', data.isearchOnActivate)
             .change(gt.settings.isearchOnActivateChanged);
@@ -4841,6 +4925,18 @@ gt.settings = {
     preferCombatVenturesChanged: function(e) {
         var value = $(this).is(':checked');
         gt.settings.saveDirty({ combatVentures: value ? 1 : 0 });
+        gt.settings.redisplayMatchingBlocks('.crafting-page');
+    },
+
+    preferGarheringChanged: function(e) {
+        var value = $(this).is(':checked');
+        gt.settings.saveDirty({ preferGathering: value ? 1 : 0 });
+        gt.settings.redisplayMatchingBlocks('.crafting-page');
+    },
+
+    preferCraftingChanged: function(e) {
+        var value = $(this).is(':checked');
+        gt.settings.saveDirty({ preferCrafting: value ? 1 : 0 });
         gt.settings.redisplayMatchingBlocks('.crafting-page');
     },
 
@@ -5573,7 +5669,7 @@ gt.display = {
                     break;
 
                 case 'gearset':
-                    $e.append('<img src="images/Main Hand.png" width="' + (radius - 2) + '"px>');
+                    $e.append('<img src="images/slot/Main Hand.png" width="' + (radius - 2) + '"px>');
                     break;
             }
 
@@ -5818,33 +5914,33 @@ gt.list = {
     listHeaderTemplate: null,
     current: null,
     specialIcons: {
-        DOL: 'DOL', GATHER: 'DOL', GATHERING: 'DOL', GATHERER: 'DOL',
-        DOH: 'DOH', CRAFT: 'DOH', CRAFTING: 'DOH', CRAFTER: 'DOH',
+        DOL: 'images/job/DOL.png', GATHER: 'images/job/DOL.png', GATHERING: 'images/job/DOL.png', GATHERER: 'images/job/DOL.png',
+        DOH: 'images/job/DOH.png', CRAFT: 'images/job/DOH.png', CRAFTING: 'images/job/DOH.png', CRAFTER: 'images/job/DOH.png',
     
-        SCRIP: 'images/Rowena.png', SCRIPS: 'images/Rowena.png',
+        SCRIP: 'images/marker/Rowena.png', SCRIPS: 'images/marker/Rowena.png',
         'RED SCRIP': '../files/icons/item/65031.png', 'RED SCRIPS': '../files/icons/item/65031.png',
         'YELLOW SCRIP': '../files/icons/item/65044.png',
     
         GLAMOUR: '../files/icons/item/28010.png', GLAM: '../files/icons/item/28010.png', FASHION: '../files/icons/item/28010.png',
     
-        SPIRITBOND: 'images/Convert.png', SPIRITBONDING: 'images/Convert.png',
+        SPIRITBOND: 'images/item/Convert.png', SPIRITBONDING: 'images/item/Convert.png',
     
         VOYAGE: 'images/Voyage.png', VOYAGES: 'images/Voyage.png',
         AIRSHIP: 'images/Voyage.png', AIRSHIPS: 'images/Voyage.png',
         SUB: 'images/Voyage.png', SUBS: 'images/Voyage.png',
         SUBMARINE: 'images/Voyage.png', SUBMARINES: 'images/Voyage.png',
     
-        HOUSE: 'images/House.png', HOUSING: 'images/House.png',
-        MANSION: 'images/House.png', COTTAGE: 'images/House.png',
-        APARTMENT: 'images/House.png',
-        DECORATION: 'images/House.png', DECORATIONS: 'images/House.png',
-        FURNISHING: 'images/House.png', FURNISHINGS: 'images/House.png',
+        HOUSE: 'images/marker/House.png', HOUSING: 'images/marker/House.png',
+        MANSION: 'images/marker/House.png', COTTAGE: 'images/marker/House.png',
+        APARTMENT: 'images/marker/House.png',
+        DECORATION: 'images/marker/House.png', DECORATIONS: 'images/marker/House.png',
+        FURNISHING: 'images/marker/House.png', FURNISHINGS: 'images/marker/House.png',
     
         PATCH: 'LatestPatch',
         DAILY: '../files/icons/event/71222.png', DAILIES: '../files/icons/event/71222.png',
         QUEST: '../files/icons/event/71221.png', QUESTS: '../files/icons/event/71221.png',
         ORCHESTRION: '../files/icons/item/25945.png', ORCH: '../files/icons/item/25945.png',
-        SATISFACTION: 'Satisfaction', DELIVERY: 'Satisfaction',
+        SATISFACTION: 'images/marker/Satisfaction', DELIVERY: 'images/marker/Satisfaction',
     },
 
     initialize: function(data) {
@@ -7049,7 +7145,7 @@ gt.leve = {
             frameIcon: '../files/icons/leve/frame/' + leve.frame + '.png',
             sourceName: leve.name,
             desc: leve.description,
-            icon: 'images/Leve.png',
+            icon: 'images/marker/Leve.png',
             jobCategory: gt.jobCategories[leve.jobCategory].name,
             lvl: leve.lvl,
             client: leve.client,
@@ -7064,7 +7160,7 @@ gt.leve = {
         view.subheader = "Level " + leve.lvl + " " + view.jobCategory + " Leve";
 
         if (leve.gc)
-            view.gcIcon = 'images/' + gt.grandCompanies[leve.gc] + '.png';
+            view.gcIcon = 'images/region/flag/' + gt.grandCompanies[leve.gc] + '.png';
 
         if (data) {
             view.levemete = gt.model.partial(gt.npc, leve.levemete);
@@ -7120,7 +7216,7 @@ gt.leve = {
             sourceName: name,
             jobCategory: gt.jobCategories[partial.j].name,
             lvl: partial.l,
-            icon: 'images/Leve.png'
+            icon: 'images/marker/Leve.png'
         };
 
         var location = gt.location.index[partial.p];
@@ -7144,7 +7240,7 @@ gt.leve = {
 
     resolveCraftSource: function(step, id) {
         step.sourceType = 'leve';
-        step.sourceView = { id: id, type: 'leve', name: 'Leve', sourceName: 'Leve', icon: 'images/Leve.png' };
+        step.sourceView = { id: id, type: 'leve', name: 'Leve', sourceName: 'Leve', icon: 'images/marker/Leve.png' };
         step.setCategory(['Leve', 'Other']);
     },
 };
@@ -7164,7 +7260,7 @@ gt.venture = {
             ilvl: venture.ilvl,
             gathering: venture.gathering,
             amounts: venture.amounts,
-            requireIcon: venture.gathering ? 'images/Gathering.png' : 'images/ilvl.png',
+            requireIcon: venture.gathering ? 'images/Gathering.png' : 'images/item/ilvl.png',
             requireList: venture.gathering ? venture.gathering : venture.ilvl,
             random: venture.random
         };
@@ -7504,14 +7600,15 @@ gt.equip = {
     weatherIndex: null,
     weatherRateIndex: null,
     regions: [
-        { icon: "images/Region La Noscea.png", name: "La Noscea", page: "LaNoscea", zones: [27, 30, 31, 32, 33, 34, 350, 358, 425] },
-        { icon: "images/Region Black Shroud.png", name: "The Black Shroud", page: "TheBlackShroud", zones: [39, 54, 55, 56, 57, 426] },
-        { icon: "images/Region Thanalan.png", name: "Thanalan", page: "Thanalan", zones: [51, 42, 43, 44, 45, 46, 427] },
-        { icon: "images/Region Ishgard.png", name: "Ishgard and Surrounds", page: "Ishgard", zones: [62, 63, 2200, 2100, 2101, 2082, 2000, 2001, 2002, 1647] },
-        { icon: "images/Region Gyr Abania.png", name: "Gyr Abania", page: "GyrAbania", zones: [2403, 2406, 2407, 2408] },
-        { icon: "images/Region Kugane.png", name: "Far East", page: "FarEast", zones: [513, 2412, 2409, 2410, 2411] },
-        { icon: "images/Region Norvrandt.png", name: "Norvrandt", page: "Norvrandt", zones: [516, 517, 2953, 2954, 2955, 2956, 2957, 2958], },
-        { icon: "images/Aetheryte.png", name: "Others", page: "Others", zones: [67, 2414, 2462, 2530, 2545, 3534] }
+        { icon: "images/region/La Noscea.png", name: "La Noscea", page: "LaNoscea", zones: [27, 30, 31, 32, 33, 34, 350, 358, 425] },
+        { icon: "images/region/Black Shroud.png", name: "The Black Shroud", page: "TheBlackShroud", zones: [39, 54, 55, 56, 57, 426] },
+        { icon: "images/region/Thanalan.png", name: "Thanalan", page: "Thanalan", zones: [51, 42, 43, 44, 45, 46, 427] },
+        { icon: "images/region/Ishgard.png", name: "Ishgard and Surrounds", page: "Ishgard", zones: [62, 63, 2200, 2100, 2101, 2082, 2000, 2001, 2002, 1647] },
+        { icon: "images/region/Gyr Abania.png", name: "Gyr Abania", page: "GyrAbania", zones: [2403, 2406, 2407, 2408] },
+        { icon: "images/region/Kugane.png", name: "Far East", page: "FarEast", zones: [513, 2412, 2409, 2410, 2411, 3534, 3662] },
+        { icon: "images/region/Ilsabard.png", name: "Ilsabard", page: "Ilsabard", zones: [3707, 3709, 3710, 2414, 2462, 2530, 2545] },
+        { icon: "images/region/Norvrandt.png", name: "Norvrandt", page: "Norvrandt", zones: [516, 517, 2953, 2954, 2955, 2956, 2957, 2958], },
+        { icon: "images/marker/Aetheryte.png", name: "Others", page: "Others", zones: [67, 3706, 3708, 3711, 3712, 3713] }
     ],
     weatherUpdateKey: null,
     lWeatherStart: null,
@@ -7536,7 +7633,7 @@ gt.equip = {
             name: 'Skywatcher',
             template: gt.skywatcher.blockTemplate,
             blockClass: 'tool noexpand',
-            icon: 'images/Skywatcher.png',
+            icon: 'images/marker/Skywatcher.png',
             subheader: 'Weather Forecast Tool',
             tool: 1,
             settings: 1,
@@ -8562,6 +8659,16 @@ gt.craft.step.prototype.discoverSource = function(itemSettings) {
         return; // Don't bother with other sources for crystals.
     }
 
+    if (gt.settings.data.preferGathering && this.item.nodes) {
+        gt.node.resolveCraftSource(this);
+        return;
+    }
+
+    if (gt.settings.data.preferCrafting && this.item.craft) {
+        this.setCraftSource(itemSettings);
+        return;
+    }
+
     // Vendors are the easiest and best source.
     if (this.item.vendors) {
         gt.npc.resolveCraftSource(this);
@@ -8585,9 +8692,9 @@ gt.craft.step.prototype.discoverSource = function(itemSettings) {
 
     if (this.item.reducedFrom) {
         const partialList = gt.model.partialList(gt.item, this.item.reducedFrom);
-        var reduceItem = partialList && partialList[0] || { name: '???' };
+        const reduceItem = partialList && partialList[0] || { name: '???' };
         this.sourceType = 'reduction';
-        this.source = { sourceName: reduceItem.name, longSourceName: reduceItem.name + ' Aetherial Reduction', icon: 'images/Reduce.png' };
+        this.source = { sourceName: reduceItem.name, longSourceName: reduceItem.name + ' Aetherial Reduction', icon: 'images/item/Reduce.png' };
         this.sourceView = this.source;
         this.setCategory(['Desynthesis / Reduction', 'Gather']);
         return;
@@ -8623,7 +8730,7 @@ gt.craft.step.prototype.discoverSource = function(itemSettings) {
 
     if (this.item.desynthedFrom) {
         this.sourceType = 'desynthesis';
-        this.source = { sourceName: 'Desynthesis', longSourceName: 'Desynthesis', icon: 'images/Desynth.png' };
+        this.source = { sourceName: 'Desynthesis', longSourceName: 'Desynthesis', icon: 'images/item/Desynth.png' };
         this.sourceView = this.source;
         this.setCategory(['Desynthesis / Reduction', 'Other']);
         return;
@@ -9581,6 +9688,9 @@ gt.map = {
                 view.radius *= map.location.size;
         }
 
+        if (view.radius < 15)
+            view.radius = 15
+
         view.image = '../files/maps/' + view.parent.name + '/' + gt.map.sanitizeLocationName(view.location.name) + '.png';
 
         return view;
@@ -9778,7 +9888,7 @@ gt.note = {
             displayName: he.encode(data.id),
             template: gt.note.blockTemplate,
             blockClass: 'tool expand-right',
-            icon: 'images/Note.png',
+            icon: 'images/site/Note.png',
             subheader: 'Note Tool',
             tool: 1,
 

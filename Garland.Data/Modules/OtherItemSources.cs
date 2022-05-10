@@ -28,7 +28,9 @@ namespace Garland.Data.Modules
                 var args = line.Skip(2).Where(c => c != "").ToArray();
                 var itemName = line[0];
 
-                if (itemName.StartsWith("#")) continue;
+                // Jump over comments
+                if (itemName.StartsWith("#"))
+                    continue;
 
                 try
                 {
@@ -92,8 +94,8 @@ namespace Garland.Data.Modules
                 {
                     var joinedArgs = string.Join(", ", args);
                     DatabaseBuilder.PrintLine($"Error importing supplemental source '{itemName}' with args '{joinedArgs}': {ex.Message}");
-                    //if (System.Diagnostics.Debugger.IsAttached)
-                    //    System.Diagnostics.Debugger.Break();
+                    if (System.Diagnostics.Debugger.IsAttached)
+                        System.Diagnostics.Debugger.Break();
                 }
             }
         }
@@ -334,7 +336,7 @@ namespace Garland.Data.Modules
             {
                 try
                 {
-                    var instance = _builder.Db.Instances.First(i => i.en.name == name);
+                    var instance = _builder.Db.Instances.First(i => i.en.name.ToString().ToUpper() == name.ToUpper());
                     int instanceId = instance.id;
                     if (instance.rewards == null)
                         instance.rewards = new JArray();

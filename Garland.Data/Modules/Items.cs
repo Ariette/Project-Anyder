@@ -111,7 +111,7 @@ namespace Garland.Data.Modules
 
                 BuildAttributes(item, sItem);
 
-                item.icon = ItemIconDatabase.EnsureIcon(sItem);
+                item.icon = _builder.ItemIconDatabase.EnsureIcon(sItem);
 
                 // Additional data
                 var additionalData = sItem.AdditionalData;
@@ -237,6 +237,7 @@ namespace Garland.Data.Modules
                     if (!sItem.IsAdvancedMeldingPermitted)
                         item.advancedMeldingForbidden = 1;
                 }
+
 
                 if (sEquipment.RepairItem != null && sEquipment.RepairItem.Key > 0)
                     item.repair_item = sEquipment.RepairItem.Key;
