@@ -30,7 +30,7 @@ namespace Garland.Data.Output
             _languageSort["de"] = 2;
             _languageSort["fr"] = 3;
             _languageSort["jp"] = 4;
-            _languageSort["kr"] = 5;
+            _languageSort["ko"] = 5;
             _languageSort["cn"] = 6;
         }
 
@@ -82,7 +82,7 @@ namespace Garland.Data.Output
             languageSort["de"] = 2;
             languageSort["fr"] = 3;
             languageSort["ja"] = 4;
-            languageSort["kr"] = 5;
+            languageSort["ko"] = 5;
             languageSort["cn"] = 6;
 
             return _rows
