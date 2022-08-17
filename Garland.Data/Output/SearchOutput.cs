@@ -148,7 +148,7 @@ namespace Garland.Data.Output
             var id = (string)obj.id;
 
             if (!string.IsNullOrEmpty(key_en))
-                _update.Include(new SearchRow() { Id = id, Type = type, Lang = "en", Name = key_en, Json = JsonConvert.SerializeObject(GetSearchPartial(obj, type, "en", id)) });
+                _update.Include(new SearchRow() { Id = id, Type = type, Lang = "ko", Name = key_en, Json = JsonConvert.SerializeObject(GetSearchPartial(obj, type, "ko", id)) });
         }
 
         dynamic GetSearchPartial(dynamic obj, string type, string lang, string id)

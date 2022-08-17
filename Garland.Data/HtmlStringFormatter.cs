@@ -177,7 +177,7 @@ namespace Garland.Data
                             case "9DBC":
                                 return "(이)라";
                             default:
-                                DatabaseBuilder.PrintLine($"13 - {content}");
+                                // DatabaseBuilder.PrintLine($"13 - {content}");
                                 return "";
                         }
                     }
@@ -192,7 +192,7 @@ namespace Garland.Data
                             case "A1A0":
                                 return "로는";
                             default:
-                                DatabaseBuilder.PrintLine($"14 - {content}");
+                                // DatabaseBuilder.PrintLine($"14 - {content}");
                                 return "";
                         }
                     }

@@ -169,7 +169,6 @@ namespace Garland.Data.Modules
             JArray currentNodeItems = null;
 
             var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Fishing.tsv"));
-            var PlaceHelper = new TranslationHelper("PlaceName");
             var ItemHelper = new TranslationHelper("Item");
             var weatherHelper = new TranslationHelper("Weather");
             foreach (var rLine in lines.Skip(1))
@@ -184,12 +183,13 @@ namespace Garland.Data.Modules
                     continue;
                          
                 var name = _name;
-                if (PlaceHelper.ToLower().TryGetID(_name.ToLower(), out int _locationId))
-                {
-                    name = _builder.Db.LocationsById[_locationId].name;
-                } else if (ItemHelper.ToLower().TryGetID(_name.ToLower(), out var _itemId))
+                if (ItemHelper.ToLower().TryGetID(_name.ToLower(), out var _itemId))
                 {
                     name = _builder.Db.ItemsById[_itemId].ko.name;
+                }
+                else
+                {
+                    continue;
                 }
 
                 if (_fishingSpotsByName.TryGetValue(name, out var fishingSpot))
@@ -438,21 +438,32 @@ namespace Garland.Data.Modules
         {
             dynamic currentNode = null;
             JArray currentNodeItems = null;
+            var ItemHelper = new TranslationHelper("Item");
 
             var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Spearfishing.tsv"));
             foreach (var rLine in lines.Skip(1))
             {
                 
                     // Line data
-                    var name = rLine[0].Trim();
+                    var _name = rLine[0].Trim();
 
-                    if (string.IsNullOrEmpty(name))
+                    if (string.IsNullOrEmpty(_name))
                         continue;
 
-                    if (name.StartsWith("#"))
+                    if (_name.StartsWith("#"))
                         continue;
 
-                    var buff = rLine[7].Trim();
+                    var name = _name;
+                    if (ItemHelper.ToLower().TryGetID(_name.ToLower(), out var _itemId))
+                    {
+                        name = _builder.Db.ItemsById[_itemId].ko.name;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                var buff = rLine[7].Trim();
                     var unlock = rLine[8].Trim();
 
                     // Name may reference either fishing spot, spearfishing node, or fish - check here.

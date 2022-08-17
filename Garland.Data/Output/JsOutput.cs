@@ -20,7 +20,7 @@ namespace Garland.Data.Output
         Dictionary<Tuple<string, string>, Dictionary<string, JObject>> _partialsByLangTypeById = new Dictionary<Tuple<string, string>, Dictionary<string, JObject>>();
         Dictionary<dynamic, dynamic> _ingredientsByItem = new Dictionary<dynamic, dynamic>();
         readonly static JsonConverter[] _converters = new[] { new WrapperConverter() };
-        readonly static string[] _languagesCodes = new[] { "en" };
+        readonly static string[] _languagesCodes = new[] { "ko" };
 
         public JsOutput(UpdatePackage update)
         {
@@ -35,20 +35,20 @@ namespace Garland.Data.Output
                 CreatePartials(lang);
                 WriteCore(lang);
 
-                WriteEquipmentCalculators(lang);
+                // WriteEquipmentCalculators(lang);
                 WriteItems(lang);
                 WriteQuests(lang);
                 WriteLeves(lang);
-                WriteNpcs(lang);
-                WriteActions(lang);
-                WriteFish(lang);
-                WriteNodes(lang);
-                WriteAchievements(lang);
-                WriteInstances(lang);
+                // WriteNpcs(lang);
+                // WriteActions(lang);
+                // WriteFish(lang);
+                // WriteNodes(lang);
+                // WriteAchievements(lang);
+                // WriteInstances(lang);
                 WriteFates(lang);
-                WriteMobs(lang);
-                WriteStatuses(lang);
-                WriteBrowsers(lang);
+                // WriteMobs(lang);
+                // WriteStatuses(lang);
+                // WriteBrowsers(lang);
 
                 PatchDatabase.WritePatchLists(this, _update, lang);
             }
@@ -64,7 +64,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = action.id;
-                partial.n = action[lang] ? (string)action[lang]["name"] : (string)action.name;
+                partial.n = action[lang] == null ? (string)action.name : (string)action[lang]["name"];
                 partial.c = action.icon;
                 partial.j = action.job;
                 partial.t = action.category;
@@ -79,7 +79,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = achievement.id;
-                partial.n = (string)achievement[lang]["name"];
+                partial.n = achievement[lang] == null ? (string)achievement.name : (string)achievement[lang]["name"];
                 partial.c = achievement.icon;
                 partial.t = achievement.category;
 
@@ -106,7 +106,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = leve.id;
-                partial.n = (string)leve[lang]["name"];
+                partial.n = leve[lang] == null ? (string)leve.name : (string)leve[lang]["name"]; ;
                 partial.l = leve.lvl;
                 partial.j = leve.jobCategory;
                 partial.p = leve.areaid;
@@ -120,7 +120,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = fate.id;
-                partial.n = (string)fate[lang]["name"];
+                partial.n = fate[lang] == null ? (string)fate.name : (string)fate[lang]["name"]; ;
                 partial.l = fate.lvl;
                 partial.t = fate.type;
 
@@ -139,9 +139,9 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = quest.id;
-                partial.n = (string)quest[lang]["name"];
+                partial.n = quest[lang] == null ? (string)quest.name : (string)quest[lang]["name"]; ;
                 partial.g = quest.genre;
-                partial.l = (string)quest[lang]["location"];
+                partial.l = quest[lang] == null ? (string)quest.location : (string)quest[lang]["location"];
                 partial.s = quest.sort;
                 if (quest.repeatable != null)
                     partial.r = 1;
@@ -157,7 +157,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = npc.id;
-                partial.n = (string)npc[lang]["name"];
+                partial.n = npc[lang] == null ? (string)npc.name : (string)npc[lang]["name"]; ;
                 if (npc.zoneid != null)
                     partial.l = npc.zoneid;
                 if (npc.shops != null)
@@ -188,13 +188,16 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = mob.id;
-                partial.n = (string)mob[lang]["name"];
+                partial.n = mob[lang] == null ? (string)mob.name : (string)mob[lang]["name"];
                 partial.l = mob.lvl;
 
                 if (mob.zoneid != null)
                     partial.z = mob.zoneid;
                 if (mob.instance != null)
-                    partial.t = (string)_db.InstancesById[(int)mob.instance][lang]["name"];
+                {
+                    var instance = _db.InstancesById[(int)mob.instance];
+                    partial.t = instance[lang] == null ? (string)instance.name : (string)instance[lang]["name"];
+                }
 
                 mobs[(string)mob.id] = partial;
             }
@@ -205,9 +208,9 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = instance.id;
-                partial.n = (string)instance[lang]["name"];
+                partial.n = instance[lang] == null ? (string)instance.name : (string)instance[lang]["name"];
                 partial.c = instance.categoryIcon;
-                partial.t = (string)instance[lang]["category"];
+                partial.t = instance[lang] == null ? (string)instance.category : (string)instance[lang]["category"];
 
                 partial.min_lvl = instance.min_lvl;
                 if (instance.max_lvl != null)
@@ -226,7 +229,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = item.id;
-                partial.n = (string)item[lang]["name"];
+                partial.n = item[lang] == null ? (string)item.name : (string)item[lang]["name"];
                 partial.l = item.ilvl;
                 partial.c = item.icon;
                 partial.t = item.category;
@@ -246,7 +249,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = spot.id;
-                partial.n = (string)spot[lang]["name"];
+                partial.n = spot[lang] == null ? (string)spot.name : (string)spot[lang]["name"];
                 partial.l = spot.lvl;
                 partial.c = spot.category;
 
@@ -289,7 +292,7 @@ namespace Garland.Data.Output
             {
                 dynamic partial = new JObject();
                 partial.i = status.id;
-                partial.n = (string)status[lang]["name"];
+                partial.n = status[lang] == null ? (string)status.name : (string)status[lang]["name"];
                 partial.c = status.icon;
                 partial.t = status.category;
 
