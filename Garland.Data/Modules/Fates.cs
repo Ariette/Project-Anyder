@@ -33,16 +33,18 @@ namespace Garland.Data.Modules
             var itemHelper = new TranslationHelper("Item");
             foreach (var line in lines.Skip(1))
             {
-                var name = line[0];
-                var id = int.Parse(line[1]);
-                var zone = line[2];
-                var coords = line[3];
-                var patch = line[4]; // Unused
-                var rewardItemNameStr = line[5];
+                try
+                {
+                    var name = line[0];
+                    var id = int.Parse(line[1]);
+                    var zone = line[2];
+                    var coords = line[3];
+                    var patch = line[4]; // Unused
+                    var rewardItemNameStr = line[5];
 
-                dynamic fate = new JObject();
-                fate.name = name;
-                fate.id = id;
+                    dynamic fate = new JObject();
+                    fate.name = name;
+                    fate.id = id;
 
                 if (zone != "")
                 {
@@ -51,8 +53,8 @@ namespace Garland.Data.Modules
                     fate.zoneid = _zoneId;
                 }
 
-                if (coords != "")
-                    fate.coords = new JArray(Utils.FloatComma(coords));
+                    if (coords != "")
+                        fate.coords = new JArray(Utils.FloatComma(coords));
 
                 if (rewardItemNameStr != "")
                 {
@@ -64,14 +66,21 @@ namespace Garland.Data.Modules
                             item.fates = new JArray();
                         item.fates.Add(id);
 
-                        if (fate.items == null)
-                            fate.items = new JArray();
-                        fate.items.Add((int)item.id);
-                        _builder.Db.AddReference(item, "fate", id, false);
+                            if (fate.items == null)
+                                fate.items = new JArray();
+                            fate.items.Add((int)item.id);
+                            _builder.Db.AddReference(item, "fate", id, false);
+                        }
                     }
-                }
 
-                _fateDataById[(int)fate.id] = fate;
+                    _fateDataById[(int)fate.id] = fate;
+                }
+                catch (Exception e)
+                {
+                    DatabaseBuilder.PrintLine($"Fate Line Error: {line}");
+                    if (System.Diagnostics.Debugger.IsAttached)
+                        System.Diagnostics.Debugger.Break();
+                }
             }
         }
 
