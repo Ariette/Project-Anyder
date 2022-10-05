@@ -35,20 +35,20 @@ namespace Garland.Data.Output
                 CreatePartials(lang);
                 WriteCore(lang);
 
-                // WriteEquipmentCalculators(lang);
+                WriteEquipmentCalculators(lang);
                 WriteItems(lang);
                 WriteQuests(lang);
                 WriteLeves(lang);
-                // WriteNpcs(lang);
-                // WriteActions(lang);
-                // WriteFish(lang);
-                // WriteNodes(lang);
-                // WriteAchievements(lang);
-                // WriteInstances(lang);
+                WriteNpcs(lang);
+                WriteActions(lang);
+                WriteFish(lang);
+                WriteNodes(lang);
+                WriteAchievements(lang);
+                WriteInstances(lang);
                 WriteFates(lang);
-                // WriteMobs(lang);
-                // WriteStatuses(lang);
-                // WriteBrowsers(lang);
+                WriteMobs(lang);
+                WriteStatuses(lang);
+                WriteBrowsers(lang);
 
                 PatchDatabase.WritePatchLists(this, _update, lang);
             }

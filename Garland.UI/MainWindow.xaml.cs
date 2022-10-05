@@ -192,7 +192,8 @@ namespace Garland.UI
             foreach (var row in update.OrderedRows().OfType<DataJsonRow>())
             {
                 var path = $"{row.Lang}\\{row.Type}\\{row.Id}.json";
-                zip.AddEntry(path, row.Json, Encoding.UTF8);
+                if (!zip.ContainsEntry(path))
+                    zip.AddEntry(path, row.Json, Encoding.UTF8);
             }
 
             zip.Save();

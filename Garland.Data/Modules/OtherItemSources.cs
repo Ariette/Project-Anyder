@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Garland.Data.Helpers;
+using Saint = SaintCoinach.Xiv;
 
 namespace Garland.Data.Modules
 {
     public class OtherItemSources : Module
     {
-        Dictionary<string, dynamic> _venturesByName;
 
         public override string Name => "Other Item Sources";
         private static readonly TranslationHelper itemHelper = new TranslationHelper("Item");
@@ -90,8 +90,8 @@ namespace Garland.Data.Modules
                 {
                     var joinedArgs = string.Join(", ", args);
                     DatabaseBuilder.PrintLine($"Error importing supplemental source '{itemName}' with args '{joinedArgs}': {ex.Message}");
-                    if (System.Diagnostics.Debugger.IsAttached)
-                        System.Diagnostics.Debugger.Break();
+//                    if (System.Diagnostics.Debugger.IsAttached)
+//                         System.Diagnostics.Debugger.Break();
                 }
             }
         }
@@ -233,7 +233,34 @@ namespace Garland.Data.Modules
         {
             if (item.voyages != null)
                 throw new InvalidOperationException("item.voyages already exists.");
-            item.voyages = new JArray(sources);
+
+            var airshipHelper = new TranslationHelper("AirshipExplorationPoint", "Name{Short}");
+            var submarineHelper = new TranslationHelper("SubmarineExploration", "Destination");
+            var _airshipSheet = _builder.Sheet<Saint.AirshipExplorationPoint>();
+            var _submarineSheet = _builder.Sheet<Saint.SubmarineExploration>();
+
+            var _sources = new JArray();
+            foreach (var source in sources)
+            {
+                if (airshipHelper.ToLower().TryGetID(source.ToLower(), out var _id))
+                {
+                    var _voyage = _airshipSheet.First(voyage => voyage.Key == _id);
+                    _sources.Add(_voyage.Name.ToString());
+                } else if (submarineHelper.ToLower().TryGetID(source.ToLower(), out var __id))
+                {
+                    var _voyage = _submarineSheet.First(voyage => voyage.Key == __id);
+                    _sources.Add(_voyage.Name.ToString());
+                } else if (submarineHelper.ToLower().TryGetID("the " + source.ToLower(), out var ___id))
+                {
+                    var _voyage = _submarineSheet.First(voyage => voyage.Key == ___id);
+                    _sources.Add(_voyage.Name.ToString());
+                }
+                else
+                {
+                    DatabaseBuilder.PrintLine($"Error with parsing voyage '{source}' of {item.ko.name}");
+                }
+            }
+            item.voyages = _sources;
         }
 
         void BuildNodes(dynamic item, string[] sources)
