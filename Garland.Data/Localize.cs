@@ -33,12 +33,8 @@ namespace Garland.Data
 
             foreach (var langTuple in _langs)
             {
-                var code = langTuple.Item1;
                 var lang = langTuple.Item2;
                 _data.ActiveLanguage = lang;
-
-                if (!obj.TryGetValue(code, out var strs))
-                    obj[code] = strs = new JObject();
 
                 foreach (var col in cols)
                 {
@@ -47,7 +43,7 @@ namespace Garland.Data
                         continue;
 
                     var sanitizedCol = col.ToLower().Replace("{", "").Replace("}", "");
-                    strs[sanitizedCol] = transform == null ? (value.ToString().TrimEnd()) : transform((XivString)value);
+                    obj[sanitizedCol] = transform == null ? (value.ToString().TrimEnd()) : transform((XivString)value);
                 }
             }
 
@@ -70,19 +66,15 @@ namespace Garland.Data
 
             foreach (var langTuple in _langs)
             {
-                var code = langTuple.Item1;
                 var lang = langTuple.Item2;
                 _data.ActiveLanguage = lang;
-
-                if (!obj.TryGetValue(code, out var strs))
-                    obj[code] = strs = new JObject();
 
                 var value = row[fromColumn];
                 var toValue = transform == null ? (value.ToString()) : transform((XivString)value);
                 if (string.IsNullOrEmpty(toValue))
                     continue;
 
-                strs[toColumn] = toValue;
+                obj[toColumn] = toValue;
             }
 
             _data.ActiveLanguage = currentLang;

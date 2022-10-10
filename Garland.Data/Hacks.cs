@@ -344,7 +344,7 @@ namespace Garland.Data
                 case 106: // Gunbreaker's Arm
                 case 107: // Dancer's Arm
                 case 108: // Reaper's Arm
-                    return "Physical Damage";
+                    return "물리 기본 성능";
 
                 case 6: // One–handed Thaumaturge's Arm
                 case 7: // Two–handed Thaumaturge's Arm
@@ -356,7 +356,7 @@ namespace Garland.Data
                 case 98: // Scholar's Arm
                 case 105: // Blue Mage's Arm
                 case 109: // Sage's Arm
-                    return "Magic Damage";
+                    return "마법 기본 성능";
 
                 default:
                     return null;

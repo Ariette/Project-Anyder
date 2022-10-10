@@ -65,7 +65,7 @@ namespace Garland.Data.Modules
                 var item = _builder.CreateItem(sItem.Key);
                 _builder.Localize.Strings(item, sItem, "Name");
                 _builder.Localize.HtmlStrings(item, sItem, "Description");
-                _builder.Db.ItemsByName[(string)item.ko.name] = item;
+                _builder.Db.ItemsByName[(string)item.name] = item;
                 item.patch = PatchDatabase.Get("item", sItem.Key);
                 item.patchCategory = PatchDatabase.GetPatchCategory(sItem);
                 item.price = sItem.Ask;

@@ -31,7 +31,7 @@ namespace Garland.Data.Output
         {
             // Items
             foreach (var item in _db.Items)
-                WriteIndex(item, "item", (string)item.ko.name);
+                WriteIndex(item, "item", (string)item.name);
 
             // Nodes
             foreach (var node in _db.Nodes)
@@ -39,17 +39,17 @@ namespace Garland.Data.Output
 
             // Fishing Spots
             foreach (var spot in _db.FishingSpots)
-                WriteIndex(spot, "fishing", (string)spot.ko.name);
+                WriteIndex(spot, "fishing", (string)spot.name);
 
             // Mobs
             foreach (var mob in _db.Mobs)
-                WriteIndex(mob, "mob", (string)mob.ko.name);
+                WriteIndex(mob, "mob", (string)mob.name);
 
             // NPCs
             var npcNamesUsed = new HashSet<string>();
             foreach (var npc in _db.Npcs)
             {
-                var key = (string)npc.ko.name;
+                var key = (string)npc.name;
 
                 // NPCs only need to appear once per name.  Skip duplicates.
                 // Alternate instances can be looked up via the alts UI.
@@ -66,31 +66,31 @@ namespace Garland.Data.Output
 
             // Actions
             foreach (var action in _db.Actions)
-                WriteIndex(action, "action", (string)action.ko.name);
+                WriteIndex(action, "action", (string)action.name);
 
             // Leves
             foreach (var leve in _db.Leves)
-                WriteIndex(leve, "leve", (string)leve.ko.name);
+                WriteIndex(leve, "leve", (string)leve.name);
 
             // Quests
             foreach (var quest in _db.Quests)
-                WriteIndex(quest, "quest", (string)quest.ko.name);
+                WriteIndex(quest, "quest", (string)quest.name);
 
             // Achievements
             foreach (var achievement in _db.Achievements)
-                WriteIndex(achievement, "achievement", (string)achievement.ko.name);
+                WriteIndex(achievement, "achievement", (string)achievement.name);
 
             // Instances
             foreach (var instance in _db.Instances)
-                WriteIndex(instance, "instance", (string)instance.ko.name);
+                WriteIndex(instance, "instance", (string)instance.name);
 
             // Fates
             foreach (var fate in _db.Fates)
-                WriteIndex(fate, "fate", (string)fate.ko.name);
+                WriteIndex(fate, "fate", (string)fate.name);
 
             // Statuses
             foreach (var status in _db.Statuses)
-                WriteIndex(status, "status", (string)status.ko.name);
+                WriteIndex(status, "status", (string)status.name);
         }
 
         void WriteItems()

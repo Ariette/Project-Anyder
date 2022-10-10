@@ -77,7 +77,7 @@ namespace Garland.Data.Modules
                 dynamic npc = new JObject();
                 npc.id = sNpc.Key;
                 _builder.Localize.Column((JObject)npc, sNpc.Resident, "Singular", "name", Utils.CapitalizeWords);
-                string name = npc.ko.name;
+                string name = npc.name;
                 npc.patch = PatchDatabase.Get("npc", sNpc.Key);
 
                 // Set base information.
@@ -329,7 +329,7 @@ namespace Garland.Data.Modules
         {
             foreach (var npc in _builder.Db.Npcs)
             {
-                string name = npc.ko.name ?? "";
+                string name = npc.name ?? "";
                 var alts = _alternatesByName[name];
 
                 var otherAlts = alts.Where(a => a != npc).OrderBy(a => (int)a.id).ToArray();

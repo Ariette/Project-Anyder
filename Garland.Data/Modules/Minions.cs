@@ -23,7 +23,7 @@ namespace Garland.Data.Modules
                 var sCompanion = unlock.Companion;
 
                 _builder.Localize.Strings(item, sCompanion, "MinionRace");
-                _builder.Localize.Strings(item, sCompanion.CompanionTransient, "Tooltip", "MinionSkillType");
+                _builder.Localize.Strings(item, sCompanion.CompanionTransient, "Tooltip", "MinionSkillType", "Description{Enhanced}");
                 _builder.Localize.HtmlStrings((JObject)item, sCompanion.CompanionTransient, "SpecialAction{Name}", "SpecialAction{Description}");
                 item.cost = sCompanion.Cost;
                 item.skill_angle = sCompanion.SpecialActionAngle;

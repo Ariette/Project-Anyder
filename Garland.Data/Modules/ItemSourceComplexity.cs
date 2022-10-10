@@ -211,11 +211,11 @@ namespace Garland.Data.Modules
             if (complexity.NqScore == 99999 && complexity.Crafts == null)
             {
                 // These are usually very easy materials supplied by quest givers.
-                var itemName = (string)item.ko.name;
+                var itemName = (string)item.name;
                 if (itemName.EndsWith("Materials") && item.usedInQuest != null)
                     complexity.RecordNqScore(5);
                 //else if (!SkipComplexityAlert(itemName, item))
-                //    DatabaseBuilder.PrintLine($"Item {itemId} {item.ko.name} has no sources for complexity");
+                //    DatabaseBuilder.PrintLine($"Item {itemId} {item.name} has no sources for complexity");
             }
 
             return complexity;

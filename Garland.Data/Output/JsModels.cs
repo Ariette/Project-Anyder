@@ -99,14 +99,7 @@ namespace Garland.Data.Output
 
         public static JObject GetLocalizedData(JObject source, string lang)
         {
-            var data = new JObject(source);
-
-            data.Remove("en");
-            data.Remove("fr");
-            data.Remove("de");
-            data.Remove("ja");
-
-            return data;
+            return source;
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

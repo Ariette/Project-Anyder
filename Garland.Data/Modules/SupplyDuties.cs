@@ -133,7 +133,7 @@ namespace Garland.Data.Modules
                     foreach (var itemView in nodeView.items)
                     {
                         if ((int)itemView.id == requiredItemKey)
-                            itemView.scrip = rewardScrip.ko.name.ToString();
+                            itemView.scrip = rewardScrip.name.ToString();
                     }
                 }
 
@@ -141,7 +141,7 @@ namespace Garland.Data.Modules
                 foreach (var fishView in _builder.Db.Fish)
                 {
                     if ((int)fishView.id == requiredItemKey)
-                        fishView.scrip = rewardScrip.ko.name.ToString();
+                        fishView.scrip = rewardScrip.name.ToString();
                 }
 
                 // Add supply data to reward.

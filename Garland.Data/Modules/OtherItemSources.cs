@@ -111,7 +111,7 @@ namespace Garland.Data.Modules
             {
                 if (!itemHelper.TryGetID(seedItemName, out var _id))
                 {
-                    DatabaseBuilder.PrintLine($"Error with parsing '{seedItemName}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing '{seedItemName}' of {item.name}");
                     continue;
                 }
 
@@ -130,7 +130,7 @@ namespace Garland.Data.Modules
                 
                 if (!itemHelper.TryGetID(itemName, out var _id))
                 {
-                    DatabaseBuilder.PrintLine($"Error with parsing '{itemName}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing '{itemName}' of {item.name}");
                     continue;
                 }
 
@@ -154,7 +154,7 @@ namespace Garland.Data.Modules
             {
                 if (!itemHelper.TryGetID(sourceItemName, out var _id))
                 {
-                    DatabaseBuilder.PrintLine($"Error with parsing '{sourceItemName}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing '{sourceItemName}' of {item.name}");
                     continue;
                 }
 
@@ -176,7 +176,7 @@ namespace Garland.Data.Modules
                         if (slot.id == sourceItem.id && slot.reduce == null)
                         {
                             slot.reduce = new JObject();
-                            slot.reduce.item = item.ko.name;
+                            slot.reduce.item = item.name;
                             slot.reduce.icon = item.icon;
                         }
                     }
@@ -257,7 +257,7 @@ namespace Garland.Data.Modules
                 }
                 else
                 {
-                    DatabaseBuilder.PrintLine($"Error with parsing voyage '{source}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing voyage '{source}' of {item.name}");
                 }
             }
             item.voyages = _sources;
@@ -294,7 +294,7 @@ namespace Garland.Data.Modules
             foreach (var name in sources)
             {
                 if (!locationHelper.TryGetID(name, out var _locationId)) {
-                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.name}");
                     continue;
                 }
 
@@ -326,7 +326,7 @@ namespace Garland.Data.Modules
                     .ToLower();
                 if (!instanceHelper.ToLower().TryGetID(_name, out var _id))
                 {
-                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.ko.name}");
+                    DatabaseBuilder.PrintLine($"Error with parsing '{name}' of {item.name}");
                     continue;
                 }
                 var instance = _builder.Db.InstancesById[_id];

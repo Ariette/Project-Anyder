@@ -588,7 +588,7 @@ namespace Garland.Data.Modules
                 {
                     dynamic item = _builder.Db.ItemsById[(int)nodeItem.id];
                     dynamic itemView = new JObject();
-                    itemView.item = item.ko.name;
+                    itemView.item = item.name;
                     itemView.icon = item.icon;
                     itemView.id = item.id;
 

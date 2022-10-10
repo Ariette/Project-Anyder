@@ -185,7 +185,7 @@ namespace Garland.Data.Modules
                 var name = _name;
                 if (ItemHelper.ToLower().TryGetID(_name.ToLower(), out var _itemId))
                 {
-                    name = _builder.Db.ItemsById[_itemId].ko.name;
+                    name = _builder.Db.ItemsById[_itemId].name;
                 }
                 else
                 {
@@ -260,12 +260,12 @@ namespace Garland.Data.Modules
                         {
                             string possibleBait = possibleBaitRaw.Trim();
                             if (!ItemHelper.TryGetID(possibleBait, out var possibleBaitId))
-                                throw new InvalidOperationException($"Can't find bait {possibleBait} for {name} at {currentFishingSpot.ko.name} in helper.  Is the spelling correct?");
+                                throw new InvalidOperationException($"Can't find bait {possibleBait} for {name} at {currentFishingSpot.name} in helper.  Is the spelling correct?");
 
                             // If not otherwise specified, fish should inherit the time
                             // and weather restrictions of restricted bait (like predators).
                             if (!_builder.Db.ItemsById.TryGetValue(possibleBaitId, out var baitItem))
-                                throw new InvalidOperationException($"Can't find bait {possibleBait} for {name} at {currentFishingSpot.ko.name}.  Is the spelling correct?");
+                                throw new InvalidOperationException($"Can't find bait {possibleBait} for {name} at {currentFishingSpot.name}.  Is the spelling correct?");
 
                             if (baitItem.fish != null)
                             {
@@ -274,7 +274,7 @@ namespace Garland.Data.Modules
 
                                 dynamic baitSpotView = ((JArray)baitItem.fish?.spots)?.FirstOrDefault(s => s["spot"] == spot.spot && s["node"] == spot.node);
                                 if (baitSpotView == null)
-                                    throw new InvalidOperationException($"Can't find mooch {possibleBait} for {name} at {currentFishingSpot.ko.name}.  Did you forget to add it to the spot?");
+                                    throw new InvalidOperationException($"Can't find mooch {possibleBait} for {name} at {currentFishingSpot.name}.  Did you forget to add it to the spot?");
 
                                 InheritConditions(spot, baitSpotView, weather, transition, start, end);
                             }
@@ -456,7 +456,7 @@ namespace Garland.Data.Modules
                     var name = _name;
                     if (ItemHelper.ToLower().TryGetID(_name.ToLower(), out var _itemId))
                     {
-                        name = _builder.Db.ItemsById[_itemId].ko.name;
+                        name = _builder.Db.ItemsById[_itemId].name;
                     }
                     else
                     {
@@ -744,7 +744,7 @@ namespace Garland.Data.Modules
                         foreach (var subBaitId in baitSpot.baits[0])
                         {
                             var subBaitFishItem = _builder.Db.ItemsById[(int)subBaitId];
-                            yield return BuildBait((string)subBaitFishItem.ko.name);
+                            yield return BuildBait((string)subBaitFishItem.name);
                         }
                     }
                 }
@@ -773,10 +773,10 @@ namespace Garland.Data.Modules
             var predatorItem = GarlandDatabase.Instance.ItemsById[(int)predator.id];
 
             if (predatorItem.fish == null)
-                throw new InvalidOperationException("Predator " + predatorItem.ko.name + " has no fishing data.");
+                throw new InvalidOperationException("Predator " + predatorItem.name + " has no fishing data.");
 
             dynamic view = new JObject();
-            view.name = predatorItem.ko.name;
+            view.name = predatorItem.name;
             view.predatorAmount = predator.amount;
 
             // Find the fishing spot for this predator that matches the current spot.
@@ -785,7 +785,7 @@ namespace Garland.Data.Modules
             foreach (var baitId in predatorSpot.baits[0])
             {
                 var bait = GarlandDatabase.Instance.ItemsById[(int)baitId];
-                view.bait.Add(bait.ko.name);
+                view.bait.Add(bait.name);
                 GarlandDatabase.Instance.AddReference(fishItem, "item", (int)baitId, false);
             }
 
@@ -801,7 +801,7 @@ namespace Garland.Data.Modules
             // Convert item fish data into a view for Bell/ffxivfisher.
             dynamic view = new JObject();
 
-            view.name = item.ko.name;
+            view.name = item.name;
             view.patch = item.patch;
 
             if (spotView.snagging != null)
@@ -844,7 +844,7 @@ namespace Garland.Data.Modules
             view.func = "fish";
             view.rarity = item.rarity;
 
-            view.title = fishingSpot.ko.name;
+            view.title = fishingSpot.name;
             view.category = GetFishingSpotCategoryName((int)fishingSpot.category);
             view.spot = (int)spotView.spot;
             view.lvl = fishingSpot.lvl;
