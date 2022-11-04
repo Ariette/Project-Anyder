@@ -111,7 +111,7 @@ namespace Garland.Data.Modules
                         continue;
                     }
 
-                    if (shop.Name == "Shop")
+                    if (shop.Name == "상점")
                         shop.Name = Hacks.GetShopName(shopInstruction);
 
                     shop.ENpcs = sNpcs.Union(shop.ENpcs).Distinct().ToArray();

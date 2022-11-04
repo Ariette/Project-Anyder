@@ -36,7 +36,10 @@ namespace Garland.Data.Helpers
             var newNameMap = new Dictionary<string, int>();
             foreach (var item in this.nameMap)
             {
-                newNameMap.Add(item.Key.ToLower(), item.Value);
+                try
+                {
+                    newNameMap.Add(item.Key.ToLower(), item.Value);
+                } catch { }
             }
             return new TranslationHelper(newNameMap);
         }

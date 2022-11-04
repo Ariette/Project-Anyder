@@ -27,58 +27,58 @@ namespace Garland.Data
         public static string GetShopName(ScriptInstruction si)
         {
             if (si.Label.Contains("FCCSHOP"))
-                return "Spend company credits (items)";
+                return "부대 명성을 아이템으로 교환";
             else if (si.Label == "MOBSHOP1")
-                return "Exchange Centurio Seals";
+                return "센추리오 휘장 거래";
             else if (si.Label == "MOBSHOP2")
-                return "Exchange Centurio Seals (Advanced)";
+                return "센추리오 휘장 거래 (상급)";
             else if (si.Label == "SHOP_SPOIL")
-                return "Exchange Spoils";
+                return "전리품 교환";
             else if (si.Label == "SPECIAL_SHOP0" && si.Argument == 1769813)
-                return "Achievement Rewards";
+                return "업적 보상";
             else if (si.Label == "SPECIAL_SHOP1" && si.Argument == 1769845)
-                return "Achievement Rewards 2";
+                return "업적 보상 2";
             else if (si.Label == "SPECIAL_SHOP2" && si.Argument == 1769846)
-                return "Achievement Rewards 3";
+                return "업적 보상 3";
             else if (si.Label == "SHOP_0" && si.Argument == 1769842)
-                return "Gold Certificates of Commendation";
+                return "쿠로의 상장: 금상 교환";
             else if (si.Label == "SHOP_1" && si.Argument == 1769841)
-                return "Silver Certificates of Commendation";
+                return "쿠로의 상장: 은상 교환";
             else if (si.Label == "SHOP_2" && si.Argument == 1769956)
-                return "Bronze Certificates of Commendation";
+                return "쿠로의 상장: 동상 교환";
             else if (si.Label == "SHOP" && si.Argument == 1769812)
-                return "PVP Rewards";
+                return "PVP 보상";
             else if (si.Label == "REPLICA_SHOP0" && si.Argument == 262918)
-                return "Purchase a Eureka weapon replica (DoW).";
+                return "'에우레카 웨폰' 복제(투사)";
             else if (si.Label == "REPLICA_SHOP1" && si.Argument == 262922)
-                return "Purchase a Eureka weapon replica (DoM).";
+                return "'에우레카 웨폰' 복제(마법사)";
             else if (si.Label == "FREE_SHOP_BATTLE" && si.Argument == 1769898)
-                return "Battle Achievement Rewards";
+                return "전투 업적 보상";
             else if (si.Label == "FREE_SHOP_PVP" && si.Argument == 1769899)
-                return "PvP Achievement Rewards";
+                return "PvP 업적 보상";
             else if (si.Label == "FREE_SHOP_CHARACTER" && si.Argument == 1769900)
-                return "Character Achievement Rewards";
+                return "캐릭터 업적 보상";
             else if (si.Label == "FREE_SHOP_ITEM" && si.Argument == 1769901)
-                return "Item Achievement Rewards";
+                return "아이템 업적 보상";
             else if (si.Label == "FREE_SHOP_CRAFT" && si.Argument == 1769902)
-                return "Crafting Achievement Rewards";
+                return "제작 업적 보상";
             else if (si.Label == "FREE_SHOP_GATHERING" && si.Argument == 1769903)
-                return "Gathering Achievement Rewards";
+                return "채집 업적 보상";
             else if (si.Label == "FREE_SHOP_QUEST" && si.Argument == 1769904)
-                return "Quest Achievement Rewards";
+                return "퀘스트 업적 보상";
             else if (si.Label == "FREE_SHOP_EXPLORATION" && si.Argument == 1769905)
-                return "Exploration Achievement Rewards";
+                return "탐험 업적 보상";
             else if (si.Label == "FREE_SHOP_GRANDCOMPANY" && si.Argument == 1769906)
-                return "Grand Company Achievement Rewards";
+                return "총사령부 업적 보상";
 
             else if (si.Label == "SPSHOP_HANDLER_ID" && si.Argument == 1770041)
-                return "Skybuilders' Scrips";
+                return "창천거리 진흥권 교환";
             else if (si.Label == "SPSHOP2_HANDLER_ID" && si.Argument == 1770281)
-                return "Skybuilders' Scrips (Gear/Furnishings)";
+                return "창천거리 진흥권 교환 (장비/가구)";
             else if (si.Label == "SPSHOP3_HANDLER_ID" && si.Argument == 1770301)
-                return "Skybuilders' Scrips (Materials/Materia/Items)";
+                return "창천거리 진흥권 교환 (재료/마테리아/아이템)";
             else if (si.Label == "SPSHOP4_HANDLER_ID" && si.Argument == 1770343)
-                return "Fête Tokens";
+                return "두 빛깔 보석 교환";
             else
             {
                 DatabaseBuilder.PrintLine($"Unknown shop label {si.Label}, arg {si.Argument}.");
@@ -127,32 +127,32 @@ namespace Garland.Data
 
             var eunakotor = new ENpc[] { sENpcs[1017338] };
             shopsByKey[1769675].ENpcs = eunakotor;
-            shopsByKey[1769869].Fill("Request to keep your aetherpool gear", eunakotor);
+            shopsByKey[1769869].Fill("장비 가지고 나오기", eunakotor);
 
             var disreputablePriest = new ENpc[] { sENpcs[1018655] };
-            shopsByKey[1769743].Fill("Exchange Wolf Marks (Melee)", disreputablePriest);
-            shopsByKey[1769744].Fill("Exchange Wolf Marks (Ranged)", disreputablePriest);
+            shopsByKey[1769743].Fill("명예 점수 거래(1)", disreputablePriest);
+            shopsByKey[1769744].Fill("명예 점수 거래(2)", disreputablePriest);
 
             var eurekaGerolt = new ENpc[] { sENpcs[1025047] };
-            shopsByKey[1769820].Fill("Create or augment Eureka gear. (Paladin)", eurekaGerolt);
-            shopsByKey[1769821].Fill("Create or augment Eureka gear. (Warrior)", eurekaGerolt);
-            shopsByKey[1769822].Fill("Create or augment Eureka gear. (Dark Knight)", eurekaGerolt);
-            shopsByKey[1769823].Fill("Create or augment Eureka gear. (Dragoon)", eurekaGerolt);
-            shopsByKey[1769824].Fill("Create or augment Eureka gear. (Monk)", eurekaGerolt);
-            shopsByKey[1769825].Fill("Create or augment Eureka gear. (Ninja)", eurekaGerolt);
-            shopsByKey[1769826].Fill("Create or augment Eureka gear. (Samurai)", eurekaGerolt);
-            shopsByKey[1769827].Fill("Create or augment Eureka gear. (Bard)", eurekaGerolt);
-            shopsByKey[1769828].Fill("Create or augment Eureka gear. (Machinist)", eurekaGerolt);
-            shopsByKey[1769829].Fill("Create or augment Eureka gear. (Black Mage)", eurekaGerolt);
-            shopsByKey[1769830].Fill("Create or augment Eureka gear. (Summoner)", eurekaGerolt);
-            shopsByKey[1769831].Fill("Create or augment Eureka gear. (Red Mage)", eurekaGerolt);
-            shopsByKey[1769832].Fill("Create or augment Eureka gear. (White Mage)", eurekaGerolt);
-            shopsByKey[1769833].Fill("Create or augment Eureka gear. (Scholar)", eurekaGerolt);
-            shopsByKey[1769834].Fill("Create or augment Eureka gear. (Astrologian)", eurekaGerolt);
+            shopsByKey[1769820].Fill("장비 강화(나이트)", eurekaGerolt);
+            shopsByKey[1769821].Fill("장비 강화(전사)", eurekaGerolt);
+            shopsByKey[1769822].Fill("장비 강화(암흑기사)", eurekaGerolt);
+            shopsByKey[1769823].Fill("장비 강화(용기사)", eurekaGerolt);
+            shopsByKey[1769824].Fill("장비 강화(몽크)", eurekaGerolt);
+            shopsByKey[1769825].Fill("장비 강화(닌자)", eurekaGerolt);
+            shopsByKey[1769826].Fill("장비 강화(사무라이)", eurekaGerolt);
+            shopsByKey[1769827].Fill("장비 강화(음유시인)", eurekaGerolt);
+            shopsByKey[1769828].Fill("장비 강화(기공사)", eurekaGerolt);
+            shopsByKey[1769829].Fill("장비 강화(흑마도사)", eurekaGerolt);
+            shopsByKey[1769830].Fill("장비 강화(소환사)", eurekaGerolt);
+            shopsByKey[1769831].Fill("장비 강화(적마도사)", eurekaGerolt);
+            shopsByKey[1769832].Fill("장비 강화(백마도사)", eurekaGerolt);
+            shopsByKey[1769833].Fill("장비 강화(학자)", eurekaGerolt);
+            shopsByKey[1769834].Fill("장비 강화(점성술사)", eurekaGerolt);
 
             var confederateCustodian = new ENpc[] { sENpcs[1025848] };
-            shopsByKey[1769871].Fill("Exchange artifacts", confederateCustodian);
-            shopsByKey[1769870].Fill("Request to keep your empyrean aetherpool gear", confederateCustodian);
+            shopsByKey[1769871].Fill("아이템 교환", confederateCustodian);
+            shopsByKey[1769870].Fill("'천궁 무기' 가지고 나오기", confederateCustodian);
 
             // Gil Shops
             var domanJunkmonger = new ENpc[] { sENpcs[1025763] };
@@ -170,10 +170,10 @@ namespace Garland.Data
 
             // Faux Leaves
             var fauxCommander = new ENpc[] { sENpcs[1033921] };
-            shopsByKey[1770282].Fill("Exchange Faux Leaves", fauxCommander);
+            shopsByKey[1770282].Fill("경품 교환", fauxCommander);
 
             // Faire Voucher
-            shopsByKey[1770286].Name = "Exchange Faire Voucher";
+            shopsByKey[1770286].Name = "불꽃축제 증서 교환";
 
             // TODO: Fill the shop name via territory sheet
             // e.g. Bozja are at custom/006/CtsMycExorcismTrade_00679
@@ -183,19 +183,19 @@ namespace Garland.Data
                 sENpcs[1036895] // Zadnor Cluster exchange
             };
 
-            shopsByKey[1770087].Fill("Exchange Bozjan clusters for items.", resistanceSuppliers);
+            shopsByKey[1770087].Fill("아이템 교환", resistanceSuppliers);
         }
 
         public static bool IsMainAttribute (string attribute)
         {
             switch (attribute)
             {
-                case "Strength":
-                case "Dexterity":
-                case "Vitality":
-                case "Intelligence":
-                case "Mind":
-                case "Piety":
+                case "힘":
+                case "민첩성":
+                case "활력":
+                case "지능":
+                case "정신력":
+                case "신앙":
                     return true;
             }
 
@@ -305,10 +305,10 @@ namespace Garland.Data
         {
             switch (sContentType.Key)
             {
-                case 20: return "Novice Hall";
-                case 22: return "Seasonal Dungeon";
-                case 23: return "Airship Expedition";
-                case 27: return "The Masked Carnivale";
+                case 20: return "초보자의 집";
+                case 22: return "기간 한정 던전";
+                case 23: return "비공정 탐사";
+                case 27: return "가면무투회";
             }
 
             throw new InvalidOperationException($"Invalid missing ContentType override for {sContentType}.");
