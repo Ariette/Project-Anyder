@@ -16,12 +16,21 @@ namespace Garland.Data.Modules
 
         public override string Name => "Other Item Sources";
         private static readonly TranslationHelper itemHelper = new TranslationHelper("Item");
+        private static readonly TranslationHelper mobHelper = new TranslationHelper("BNpcName", "Singular");
+        private static readonly TranslationHelper instanceHelper = new TranslationHelper("ContentFinderCondition", "Name", "Content");
+        private static readonly TranslationHelper locationHelper = new TranslationHelper("PlaceName");
+        private static readonly TranslationHelper ventureNameHelper = new TranslationHelper("RetainerTaskRandom");
+        private static readonly TranslationHelper ventureHelper = new TranslationHelper("RetainerTask", "Task");
+        private static readonly TranslationHelper airshipHelper = new TranslationHelper("AirshipExplorationPoint", "Name{Short}");
+        private static readonly TranslationHelper submarineHelper = new TranslationHelper("SubmarineExploration", "Destination");
 
         public override void Start()
         {
-
-            var lines = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Items.tsv"));
-            foreach (var line in lines.Skip(1))
+            
+            var Items = Utils.Tsv(Path.Combine(Config.SupplementalPath, "FFXIV Data - Items.tsv")).Skip(1);
+            var lodestones = Utils.Tsv(Path.Combine(Config.SupplementalPath, "lodestones.tsv")).Skip(1);
+            var lines = Items.Concat(lodestones);
+            foreach (var line in lines)
             {
                 var type = line[1];
                 var args = line.Skip(2).Where(c => c != "").ToArray();
@@ -74,6 +83,10 @@ namespace Garland.Data.Modules
                             BuildGardening(item, args);
                             break;
 
+                        case "Drop":
+                            BuildDrop(item, args);
+                            break;
+
                         case "Other":
                             BuildOther(item, args);
                             break;
@@ -92,6 +105,36 @@ namespace Garland.Data.Modules
                     DatabaseBuilder.PrintLine($"Error importing supplemental source '{itemName}' with args '{joinedArgs}': {ex.Message}");
 //                    if (System.Diagnostics.Debugger.IsAttached)
 //                         System.Diagnostics.Debugger.Break();
+                }
+            }
+        }
+
+        void BuildDrop(dynamic item, string[] sources)
+        {
+            if (item.drops == null)
+                item.drops = new JArray();
+
+            foreach (string mobId in sources)
+            {
+                try
+                {
+                    _builder.Db.MobsByLodestoneId.TryGetValue(mobId, out var mob);
+                    if (mob == null)
+                    {
+                        DatabaseBuilder.PrintLine($"Supplemental : No mob data '{mobId}' of '{item.name}'");
+                        continue;
+                    }
+                    long mobFullKey = mob.id;
+
+                    if (!item.drops.Contains(mobFullKey))
+                    {
+                        item.drops.Add(mobFullKey);
+                        _builder.Db.AddReference(item, "mob", mobFullKey.ToString(), false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DatabaseBuilder.PrintLine($"Error importing supplemental source Mob '{mobId}' of '{item.name}' : {ex.Message}");
                 }
             }
         }
@@ -221,8 +264,6 @@ namespace Garland.Data.Modules
         {
             if (item.ventures != null)
                 throw new InvalidOperationException("item.ventures already exists.");
-            var ventureNameHelper = new TranslationHelper("RetainerTaskRandom");
-            var ventureHelper = new TranslationHelper("RetainerTask", "Task");
             var ventureIds = sources
                 .Select(j => ventureHelper.GetID(ventureNameHelper.GetID(j).ToString()))
                 .ToArray();
@@ -234,8 +275,6 @@ namespace Garland.Data.Modules
             if (item.voyages != null)
                 throw new InvalidOperationException("item.voyages already exists.");
 
-            var airshipHelper = new TranslationHelper("AirshipExplorationPoint", "Name{Short}");
-            var submarineHelper = new TranslationHelper("SubmarineExploration", "Destination");
             var _airshipSheet = _builder.Sheet<Saint.AirshipExplorationPoint>();
             var _submarineSheet = _builder.Sheet<Saint.SubmarineExploration>();
 
@@ -290,7 +329,6 @@ namespace Garland.Data.Modules
             if (item.fishingSpots == null)
                 item.fishingSpots = new JArray();
             
-            var locationHelper = new TranslationHelper("PlaceName");
             foreach (var name in sources)
             {
                 if (!locationHelper.TryGetID(name, out var _locationId)) {
@@ -317,12 +355,13 @@ namespace Garland.Data.Modules
                 item.instances = new JArray();
 
             int itemId = item.id;
-            var instanceHelper = new TranslationHelper("ContentFinderCondition");
             foreach (var name in sources)
             {                   
                 // Fix wrong name
                 var _name = name
                     .Replace("Heaven-on-High (", "Heaven-on-High  (")
+                    .Replace("Tam-Tara", "Tam–Tara")
+                    .Replace("Toto-Rak", "Toto–Rak")
                     .ToLower();
                 if (!instanceHelper.ToLower().TryGetID(_name, out var _id))
                 {
@@ -331,13 +370,21 @@ namespace Garland.Data.Modules
                 }
                 var instance = _builder.Db.InstancesById[_id];
                 int instanceId = instance.id;
+
+                if (!item.instances.Contains(instanceId))
+                {
+                    item.instances.Add(instanceId);
+                    _builder.Db.AddReference(item, "instance", instanceId, true);
+                }
+
                 if (instance.rewards == null)
                     instance.rewards = new JArray();
-                instance.rewards.Add(itemId);
-                item.instances.Add(instanceId);
 
-                _builder.Db.AddReference(instance, "item", itemId, false);
-                _builder.Db.AddReference(item, "instance", instanceId, true);
+                if (!instance.rewards.Contains(instanceId))
+                {
+                    instance.rewards.Add(itemId);
+                    _builder.Db.AddReference(instance, "item", itemId, false);
+                }
             }
         }
     }
