@@ -13,7 +13,7 @@ namespace Garland.Data
     public class GarlandDatabase
     {
         // NOTE: This section must be updated with every patch!
-        public const decimal NextPatch = 6.1m;
+        public const decimal NextPatch = 6.2m;
         public static Patch[] MajorPatches = new[] {
             new Patch(1m, "구 파판14", "구 파판14"),
 
@@ -47,6 +47,7 @@ namespace Garland.Data
 
             new Patch(6m, "효월의 종언", "효월의 종언"),
             new Patch(6.1m, "새로운 모험", "효월의 종언"),
+            new Patch(6.2m, "금단의 기억", "효월의 종언")
         };
 
         public static int LevelCap = -1; // Filled in from Miscellaneous.
