@@ -47,7 +47,8 @@ namespace Garland.Data
 
             new Patch(6m, "효월의 종언", "효월의 종언"),
             new Patch(6.1m, "새로운 모험", "효월의 종언"),
-            new Patch(6.2m, "금단의 기억", "효월의 종언")
+            new Patch(6.2m, "금단의 기억", "효월의 종언"),
+            new Patch(6.3m, "하늘의 축제, 땅의 전율", "효월의 종언")
         };
 
         public static int LevelCap = -1; // Filled in from Miscellaneous.
