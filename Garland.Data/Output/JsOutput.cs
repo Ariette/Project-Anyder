@@ -404,6 +404,7 @@ namespace Garland.Data.Output
 
             // Done
             _update.IncludeDocument("data", "core", lang, 3, Json(core));
+            _update.IncludeDocument("_data", "core", lang, 3, Json(core)); // Hack for jsOutput
         }
 
         void WriteItems(string lang)
