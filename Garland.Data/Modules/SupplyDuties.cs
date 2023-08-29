@@ -103,7 +103,7 @@ namespace Garland.Data.Modules
                 {
                     rewardScrip = _builder.Db.ItemsById[CURRENCIES[sRewardId - 1]];
                 }
-                catch (ArgumentOutOfRangeException)
+                catch (Exception)
                 {
                     DatabaseBuilder.PrintLine($"Currency {sRewardId} not found for {sItem.Name}.");
                     continue;
