@@ -674,7 +674,7 @@
     "time": [
       5
     ],
-    "title": "Wellwick Wood",
+    "title": "Yugr'am River",
     "zone": "Eastern Thanalan",
     "coords": [
       25.58,
@@ -1372,6 +1372,16 @@
         "item": "Antumbral Rock",
         "icon": 21213,
         "id": 8030
+      },
+      {
+        "item": "Unaspected Crystal",
+        "icon": 20019,
+        "id": 10099
+      },
+      {
+        "item": "Dark Matter Cluster",
+        "icon": 20407,
+        "id": 10335
       }
     ],
     "stars": 2,
@@ -1519,13 +1529,23 @@
         "item": "Pumice",
         "icon": 21454,
         "id": 9519
+      },
+      {
+        "item": "Unaspected Crystal",
+        "icon": 20019,
+        "id": 10099
+      },
+      {
+        "item": "Dark Matter Cluster",
+        "icon": 20407,
+        "id": 10335
       }
     ],
     "stars": 3,
     "time": [
       1
     ],
-    "title": "Raincatcher Gully",
+    "title": "Red Mantis Falls",
     "zone": "Eastern La Noscea",
     "coords": [
       17.56,
@@ -6180,7 +6200,7 @@
       },
       {
         "item": "Sublime Siderite",
-        "icon": "t/21486",
+        "icon": 21486,
         "id": 37695
       }
     ],
@@ -6286,7 +6306,7 @@
       },
       {
         "item": "Sophora Roots",
-        "icon": "t/25025",
+        "icon": 25025,
         "id": 38938
       },
       {
@@ -6604,7 +6624,7 @@
       },
       {
         "item": "Sublime Crystalbloom",
-        "icon": "t/25042",
+        "icon": 25042,
         "id": 37692
       }
     ],
@@ -6677,7 +6697,7 @@
       },
       {
         "item": "Sublime Achondrite",
-        "icon": "t/21247",
+        "icon": 21247,
         "id": 39238
       }
     ],
@@ -6708,9 +6728,19 @@
         "item": "Ash Diatomite",
         "icon": 22634,
         "id": 37822
+      },
+      {
+        "item": "Prime Chloroschist",
+        "icon": 21252,
+        "id": 39909
+      },
+      {
+        "item": "Sublime Chloroschist",
+        "icon": "t/21337",
+        "id": 39910
       }
     ],
-    "stars": 2,
+    "stars": 3,
     "time": [
       10,
       22
@@ -6745,7 +6775,7 @@
       },
       {
         "item": "Sublime Sphongos",
-        "icon": "t/25411",
+        "icon": 25411,
         "id": 39235
       }
     ],
@@ -6776,9 +6806,19 @@
         "item": "Haritaki",
         "icon": 25017,
         "id": 37819
+      },
+      {
+        "item": "Prime Haritaki",
+        "icon": 25015,
+        "id": 39906
+      },
+      {
+        "item": "Sublime Haritaki",
+        "icon": "t/25043",
+        "id": 39907
       }
     ],
-    "stars": 2,
+    "stars": 3,
     "time": [
       0,
       12
@@ -6830,5 +6870,179 @@
     "condition": "Perception ≥ 3800",
     "bonus": " Gatherer's Boon Chance +30%",
     "patch": 6.2
+  },
+  {
+    "type": "Rocky Outcropping",
+    "func": "node",
+    "items": [
+      {
+        "item": "Maghemite",
+        "icon": 22656,
+        "id": 39708
+      }
+    ],
+    "stars": 3,
+    "time": [
+      6,
+      18
+    ],
+    "title": "Pavana's Remorse",
+    "zone": "Thavnair",
+    "coords": [
+      24.46,
+      13.07
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 932,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
+  },
+  {
+    "type": "Mineral Deposit",
+    "func": "node",
+    "items": [
+      {
+        "item": "Softsilver Ore",
+        "icon": 21227,
+        "id": 39706
+      }
+    ],
+    "stars": 3,
+    "time": [
+      4,
+      16
+    ],
+    "title": "Ostrakon Deka-okto",
+    "zone": "Ultima Thule",
+    "coords": [
+      16.98,
+      29.39
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 933,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
+  },
+  {
+    "type": "Mineral Deposit",
+    "func": "node",
+    "items": [
+      {
+        "item": "Raw Spodumene",
+        "icon": 21475,
+        "id": 39707
+      }
+    ],
+    "stars": 3,
+    "time": [
+      8,
+      20
+    ],
+    "title": "Lethe",
+    "zone": "Elpis",
+    "coords": [
+      30.29,
+      18.3
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 934,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
+  },
+  {
+    "type": "Lush Vegetation",
+    "func": "node",
+    "items": [
+      {
+        "item": "Field Mustard",
+        "icon": "t/22696",
+        "id": 39709
+      }
+    ],
+    "stars": 3,
+    "time": [
+      10,
+      22
+    ],
+    "title": "Regio Urbanissima",
+    "zone": "Garlemald",
+    "coords": [
+      17.78,
+      12.49
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 935,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
+  },
+  {
+    "type": "Lush Vegetation",
+    "func": "node",
+    "items": [
+      {
+        "item": "Lovingbloom",
+        "icon": "t/25413",
+        "id": 39710
+      }
+    ],
+    "stars": 3,
+    "time": [
+      0,
+      12
+    ],
+    "title": "Lovingway's Darlings",
+    "zone": "Mare Lamentorum",
+    "coords": [
+      25.88,
+      20.42
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 936,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
+  },
+  {
+    "type": "Mature Tree",
+    "func": "node",
+    "items": [
+      {
+        "item": "Dark Cherry Log",
+        "icon": 22408,
+        "id": 39705
+      }
+    ],
+    "stars": 3,
+    "time": [
+      2,
+      14
+    ],
+    "title": "The Central Circuit",
+    "zone": "Labyrinthos",
+    "coords": [
+      19.06,
+      35.93
+    ],
+    "name": "Legendary",
+    "uptime": 120,
+    "lvl": 90,
+    "id": 937,
+    "condition": "Perception ≥ 4000",
+    "bonus": " Gatherer's Boon Chance +30%",
+    "patch": 6.4
   }
 ];

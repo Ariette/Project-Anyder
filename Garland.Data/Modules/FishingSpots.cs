@@ -111,6 +111,10 @@ namespace Garland.Data.Modules
         {
             foreach (var sFishParameter in _builder.Sheet<Saint.FishParameter>())
             {
+                var fishNoteInfo = _builder.Sheet("FishingNoteInfo").First(row =>
+                {
+                    return row.Key == sFishParameter.Key;
+                });
                 var guideText = sFishParameter.Text.ToString();
                 if (string.IsNullOrEmpty(guideText))
                     continue;
@@ -120,10 +124,12 @@ namespace Garland.Data.Modules
                 item.fish.guide = guideText;
                 item.fish.icon = GetFishIcon((UInt16)sFishParameter.Item.GetRaw("Icon"));
 
-                if (sFishParameter.WeatherRestricted)
+                
+                if (fishNoteInfo.As<Byte>("WeatherRestriction") > 0)
                     item.fish.weatherRestricted = 1;
-                if (sFishParameter.TimeRestricted)
+                if (fishNoteInfo.As<Byte>("TimeRestriction") > 0)
                     item.fish.timeRestricted = 1;
+                
 
                 var sGatheringSubCategory = (Saint.GatheringSubCategory)sFishParameter["GatheringSubCategory"];
                 if (sGatheringSubCategory != null && sGatheringSubCategory.Key > 0)

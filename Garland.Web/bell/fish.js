@@ -2579,10 +2579,6 @@ gt.bell.fish = [
         "Pill Bug"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7685,
@@ -2609,10 +2605,6 @@ gt.bell.fish = [
         "Harbor Herring"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 17
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7707,
@@ -2788,10 +2780,6 @@ gt.bell.fish = [
         "Rat Tail"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7678,
@@ -3467,10 +3455,6 @@ gt.bell.fish = [
         "Moth Pupa"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7679,
@@ -4910,10 +4894,6 @@ gt.bell.fish = [
         "Sinking Minnow"
       ]
     ],
-    "during": {
-      "start": 5,
-      "end": 8
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7709,
@@ -7012,10 +6992,6 @@ gt.bell.fish = [
         "Goby Ball"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 22
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7691,
@@ -7091,10 +7067,6 @@ gt.bell.fish = [
         "Goby Ball"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 3
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7712,
@@ -8450,10 +8422,6 @@ gt.bell.fish = [
         "Rat Tail"
       ]
     ],
-    "during": {
-      "start": 3,
-      "end": 5
-    },
     "weather": [
       "Clouds",
       "Fog",
@@ -9084,10 +9052,6 @@ gt.bell.fish = [
         "Syrphid Basket"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 19
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7902,
@@ -9441,10 +9405,6 @@ gt.bell.fish = [
         "Shrimp Cage Feeder"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 23
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7909,
@@ -9809,8 +9769,8 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 19,
-      "end": 21
+      "start": 18,
+      "end": 6
     },
     "weather": [
       "Clear Skies",
@@ -10295,10 +10255,6 @@ gt.bell.fish = [
         "Herring Ball"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 15
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -11668,10 +11624,6 @@ gt.bell.fish = [
         "Honey Worm"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 20
-    },
     "hookset": "Precision Hookset",
     "tug": "Light",
     "id": 7925,
@@ -13939,10 +13891,6 @@ gt.bell.fish = [
         "Copperfish"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 16
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -14557,10 +14505,6 @@ gt.bell.fish = [
         "Northern Krill"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 3
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7687,
@@ -14615,10 +14559,6 @@ gt.bell.fish = [
         "Wahoo"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 2
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7684,
@@ -14644,10 +14584,6 @@ gt.bell.fish = [
         "Yumizuno"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -14882,10 +14818,6 @@ gt.bell.fish = [
         "Ocean Cloud"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 15
-    },
     "weather": [
       "Clouds",
       "Fog",
@@ -15169,10 +15101,6 @@ gt.bell.fish = [
         "Giant Squid"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 3
-    },
     "weather": [
       "Clouds",
       "Fog",
@@ -15370,8 +15298,8 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 23,
-      "end": 2
+      "start": 18,
+      "end": 6
     },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
@@ -15430,8 +15358,8 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 22,
-      "end": 3
+      "start": 18,
+      "end": 6
     },
     "weather": [
       "Clouds",
@@ -15465,8 +15393,8 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 20,
-      "end": 4
+      "start": 18,
+      "end": 6
     },
     "weather": [
       "Clouds",
@@ -15531,10 +15459,6 @@ gt.bell.fish = [
         "Wahoo"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 2
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -16565,10 +16489,6 @@ gt.bell.fish = [
         "Common Sculpin"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 20
-    },
     "weather": [
       "Clouds",
       "Fog"
@@ -16725,10 +16645,6 @@ gt.bell.fish = [
         "Crow Fly"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 6
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7904,
@@ -16754,10 +16670,6 @@ gt.bell.fish = [
         "Butterworm"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 22
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7916,
@@ -17160,10 +17072,6 @@ gt.bell.fish = [
         "Spinnerbait"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 19
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7927,
@@ -17189,10 +17097,6 @@ gt.bell.fish = [
         "Spinnerbait"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 19
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7927,
@@ -17497,10 +17401,6 @@ gt.bell.fish = [
         "Stem Borer"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 3
-    },
     "weather": [
       "Rain"
     ],
@@ -17531,7 +17431,7 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 4,
+      "start": 18,
       "end": 6
     },
     "weather": [
@@ -17821,10 +17721,6 @@ gt.bell.fish = [
         "Stem Borer"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 2
-    },
     "weather": [
       "Rain",
       "Snow"
@@ -17879,10 +17775,6 @@ gt.bell.fish = [
         "Bloodworm"
       ]
     ],
-    "during": {
-      "start": 15,
-      "end": 21
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7708,
@@ -17908,10 +17800,6 @@ gt.bell.fish = [
         "Crow Fly"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "weather": [
       "Clouds",
       "Fog"
@@ -18392,10 +18280,6 @@ gt.bell.fish = [
         "Butterworm"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 3
-    },
     "weather": [
       "Rain"
     ],
@@ -18702,10 +18586,6 @@ gt.bell.fish = [
         "Syrphid Basket"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 23
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7920,
@@ -19083,10 +18963,6 @@ gt.bell.fish = [
         "Honey Worm"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 21
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7934,
@@ -19142,10 +19018,6 @@ gt.bell.fish = [
         "Striped Goby"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 3
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7694,
@@ -19447,10 +19319,6 @@ gt.bell.fish = [
         "Ala Mhigan Fighting Fish"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 2
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7683,
@@ -19476,10 +19344,6 @@ gt.bell.fish = [
         "Butterworm"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 23
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7907,
@@ -20131,10 +19995,6 @@ gt.bell.fish = [
         "Butterworm"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 19
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7908,
@@ -20160,10 +20020,6 @@ gt.bell.fish = [
         "Bass Ball"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 8
-    },
     "weather": [
       "Clouds",
       "Fog"
@@ -20318,10 +20174,6 @@ gt.bell.fish = [
         "Sinking Minnow"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 3
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -20658,10 +20510,6 @@ gt.bell.fish = [
         "Floating Minnow"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 14
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7699,
@@ -20739,10 +20587,6 @@ gt.bell.fish = [
         "Wildfowl Fly"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 21
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7695,
@@ -20893,10 +20737,6 @@ gt.bell.fish = [
         "Topwater Frog"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 10
-    },
     "weather": [
       "Fog"
     ],
@@ -21145,10 +20985,6 @@ gt.bell.fish = [
         "Ala Mhigan Fighting Fish"
       ]
     ],
-    "during": {
-      "start": 23,
-      "end": 4
-    },
     "weather": [
       "Fog"
     ],
@@ -21206,10 +21042,6 @@ gt.bell.fish = [
         "Butterworm"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 3
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7706,
@@ -21285,10 +21117,6 @@ gt.bell.fish = [
         "Northern Krill"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 18
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7906,
@@ -21364,10 +21192,6 @@ gt.bell.fish = [
         "Northern Krill"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 22
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 7910,
@@ -21547,10 +21371,6 @@ gt.bell.fish = [
         "Assassin Betta"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 5
-    },
     "weather": [
       "Fog"
     ],
@@ -21867,10 +21687,6 @@ gt.bell.fish = [
         "Crayfish Ball"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 3
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7692,
@@ -21946,10 +21762,6 @@ gt.bell.fish = [
         "Crayfish Ball"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 24
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7698,
@@ -21975,10 +21787,6 @@ gt.bell.fish = [
         "Bloodworm"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 21
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7703,
@@ -22084,10 +21892,6 @@ gt.bell.fish = [
         "Syrphid Basket"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 3
-    },
     "weather": [
       "Rain",
       "Showers"
@@ -22117,10 +21921,6 @@ gt.bell.fish = [
         "Midge Basket"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 7
-    },
     "weather": [
       "Rain",
       "Showers"
@@ -22179,10 +21979,6 @@ gt.bell.fish = [
         "Honey Worm"
       ]
     ],
-    "during": {
-      "start": 17,
-      "end": 20
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -22431,10 +22227,6 @@ gt.bell.fish = [
         "Glowworm"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 18
-    },
     "weather": [
       "Heat Waves"
     ],
@@ -22820,10 +22612,6 @@ gt.bell.fish = [
         "Storm Rider"
       ]
     ],
-    "during": {
-      "start": 9,
-      "end": 16
-    },
     "weather": [
       "Heat Waves"
     ],
@@ -22853,10 +22641,6 @@ gt.bell.fish = [
         "Storm Rider"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 20
-    },
     "weather": [
       "Heat Waves"
     ],
@@ -22996,10 +22780,6 @@ gt.bell.fish = [
         "Common Sculpin"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 4
-    },
     "weather": [
       "Fog"
     ],
@@ -23056,10 +22836,6 @@ gt.bell.fish = [
         "Silverfish"
       ]
     ],
-    "during": {
-      "start": 1,
-      "end": 4
-    },
     "weather": [
       "Fog"
     ],
@@ -23092,10 +22868,6 @@ gt.bell.fish = [
         "Caddisfly Larva"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 24
-    },
     "weather": [
       "Clouds",
       "Fog"
@@ -23658,10 +23430,6 @@ gt.bell.fish = [
         "Glowworm"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 4
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 7933,
@@ -23789,10 +23557,6 @@ gt.bell.fish = [
         "Abalathian Smelt"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 4
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -23822,10 +23586,6 @@ gt.bell.fish = [
         "Wildfowl Fly"
       ]
     ],
-    "during": {
-      "start": 5,
-      "end": 7
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -23908,10 +23668,6 @@ gt.bell.fish = [
         "Abalathian Smelt"
       ]
     ],
-    "during": {
-      "start": 19,
-      "end": 4
-    },
     "predator": [
       {
         "name": "Lamp Marimo",
@@ -24263,10 +24019,6 @@ gt.bell.fish = [
         "Cloud Cutter"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 15
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -24966,10 +24718,6 @@ gt.bell.fish = [
         "Ice Faerie"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 16
-    },
     "weather": [
       "Blizzards"
     ],
@@ -25111,10 +24859,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 14
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -25145,10 +24889,6 @@ gt.bell.fish = [
         "Ice Faerie"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 3
-    },
     "predator": [
       {
         "name": "Ice Faerie",
@@ -25904,10 +25644,6 @@ gt.bell.fish = [
         "Glowworm"
       ]
     ],
-    "during": {
-      "start": 3,
-      "end": 13
-    },
     "weather": [
       "Gloom"
     ],
@@ -25969,10 +25705,6 @@ gt.bell.fish = [
         "Silverfish"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 12
-    },
     "weather": [
       "Fog"
     ],
@@ -26094,10 +25826,6 @@ gt.bell.fish = [
         "Assassin Betta"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 9
-    },
     "weather": [
       "Gloom"
     ],
@@ -26155,10 +25883,6 @@ gt.bell.fish = [
         "Goldfish"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 18
-    },
     "weather": [
       "Gloom"
     ],
@@ -26189,10 +25913,6 @@ gt.bell.fish = [
         "Assassin Betta"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 18
-    },
     "predator": [
       {
         "name": "Canavan",
@@ -26825,10 +26545,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 14,
-      "end": 16
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 15635,
@@ -27064,10 +26780,6 @@ gt.bell.fish = [
         "Bullfrog"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 12
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -27477,10 +27189,6 @@ gt.bell.fish = [
         "Giant Crane Fly"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 13
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -28088,10 +27796,6 @@ gt.bell.fish = [
         "Giant Crane Fly"
       ]
     ],
-    "during": {
-      "start": 5,
-      "end": 7
-    },
     "predator": [
       {
         "name": "Scorpionfly",
@@ -28670,10 +28374,6 @@ gt.bell.fish = [
         "Fiend Worm"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 22
-    },
     "weather": [
       "Thunder"
     ],
@@ -28890,10 +28590,6 @@ gt.bell.fish = [
         "Aether Eye"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 2
-    },
     "weather": [
       "Clouds"
     ],
@@ -29033,10 +28729,6 @@ gt.bell.fish = [
         "Aether Eye"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 10
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 16753,
@@ -30075,10 +29767,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 16
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -30167,10 +29855,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 2
-    },
     "weather": [
       "Clouds",
       "Dust Storms",
@@ -30319,10 +30003,6 @@ gt.bell.fish = [
         "Blueclaw Shrimp"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 8
-    },
     "weather": [
       "Thunder"
     ],
@@ -30844,10 +30524,6 @@ gt.bell.fish = [
         "Magma Worm"
       ]
     ],
-    "during": {
-      "start": 2,
-      "end": 6
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 16751,
@@ -30930,10 +30606,6 @@ gt.bell.fish = [
         "Granite Crab"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 16
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -31058,10 +30730,6 @@ gt.bell.fish = [
         "Granite Crab"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 16
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -31098,10 +30766,6 @@ gt.bell.fish = [
         "Granite Crab"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 15
-    },
     "predator": [
       {
         "name": "Fossiltongue",
@@ -31558,10 +31222,6 @@ gt.bell.fish = [
         "Hedgemole Cricket"
       ]
     ],
-    "during": {
-      "start": 21,
-      "end": 2
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -31762,10 +31422,6 @@ gt.bell.fish = [
         "Hedgemole Cricket"
       ]
     ],
-    "during": {
-      "start": 1,
-      "end": 4
-    },
     "predator": [
       {
         "name": "Hedgemole Cricket",
@@ -31926,10 +31582,6 @@ gt.bell.fish = [
         "Sweetfish"
       ]
     ],
-    "during": {
-      "start": 2,
-      "end": 6
-    },
     "weather": [
       "Showers"
     ],
@@ -32041,10 +31693,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 10
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 15633,
@@ -32096,10 +31744,6 @@ gt.bell.fish = [
         "Brute Leech"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 13
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -32536,10 +32180,6 @@ gt.bell.fish = [
         "Giant Crane Fly"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 6
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -32829,10 +32469,6 @@ gt.bell.fish = [
         "Rudderfish"
       ]
     ],
-    "during": {
-      "start": 5,
-      "end": 8
-    },
     "predator": [
       {
         "name": "Rudderfish",
@@ -33851,10 +33487,6 @@ gt.bell.fish = [
         "Balloon Frog"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 12
-    },
     "weather": [
       "Clouds"
     ],
@@ -34059,10 +33691,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 20
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 24207,
@@ -34090,10 +33718,6 @@ gt.bell.fish = [
         "Hardhead Trout"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 20
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 24990,
@@ -34479,10 +34103,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 16
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 23059,
@@ -34819,10 +34439,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 24
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -35147,10 +34763,6 @@ gt.bell.fish = [
         "Gyr Abanian Trout"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 12
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 23061,
@@ -35549,10 +35161,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 20
-    },
     "weather": [
       "Clouds"
     ],
@@ -35956,7 +35564,7 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 16,
+      "start": 12,
       "end": 18
     },
     "predator": [
@@ -36250,10 +35858,6 @@ gt.bell.fish = [
         "Blue Bobbit"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 8
-    },
     "weather": [
       "Clouds"
     ],
@@ -36287,10 +35891,6 @@ gt.bell.fish = [
         "Ku'er"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 8
-    },
     "weather": [
       "Clouds"
     ],
@@ -36665,10 +36265,6 @@ gt.bell.fish = [
         "Ruby Shrimp"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 24
-    },
     "weather": [
       "Thunder"
     ],
@@ -36884,10 +36480,6 @@ gt.bell.fish = [
         "Blue Bobbit"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 18
-    },
     "weather": [
       "Fair Skies"
     ],
@@ -37100,10 +36692,6 @@ gt.bell.fish = [
         "Blue Bobbit"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 20
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 23065,
@@ -37476,10 +37064,6 @@ gt.bell.fish = [
         "Live Shrimp"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 24
-    },
     "weather": [
       "Thunder"
     ],
@@ -38106,10 +37690,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 24
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -38365,10 +37945,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 8
-    },
     "weather": [
       "Fair Skies"
     ],
@@ -38631,10 +38207,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 16
-    },
     "weather": [
       "Fog"
     ],
@@ -39051,10 +38623,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 24
-    },
     "weather": [
       "Showers"
     ],
@@ -39192,10 +38760,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 14
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 23067,
@@ -39582,10 +39146,6 @@ gt.bell.fish = [
         "Midge Larva"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 12
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -39830,10 +39390,6 @@ gt.bell.fish = [
         "Zagas Khaal"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 8
-    },
     "weather": [
       "Fog"
     ],
@@ -39917,10 +39473,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 8
-    },
     "weather": [
       "Fog"
     ],
@@ -40153,10 +39705,6 @@ gt.bell.fish = [
         "Zagas Khaal"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 16
-    },
     "weather": [
       "Clouds"
     ],
@@ -40364,10 +39912,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 24
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 23069,
@@ -40757,10 +40301,6 @@ gt.bell.fish = [
         "Suspending Minnow"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 8
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -40794,10 +40334,6 @@ gt.bell.fish = [
         "Stonefly Larva"
       ]
     ],
-    "during": {
-      "start": 5,
-      "end": 7
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -41107,10 +40643,6 @@ gt.bell.fish = [
         "Nightcrawler"
       ]
     ],
-    "during": {
-      "start": 4,
-      "end": 6
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 24213,
@@ -41362,10 +40894,6 @@ gt.bell.fish = [
         "Marble Nymph"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 24
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -41448,10 +40976,6 @@ gt.bell.fish = [
         "Fruit Worm"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 24
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -41532,10 +41056,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 22
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 28065,
@@ -41714,10 +41234,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 19
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -42111,10 +41627,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 8
-    },
     "weather": [
       "Fair Skies"
     ],
@@ -42483,10 +41995,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 24
-    },
     "weather": [
       "Clouds",
       "Fog"
@@ -42522,10 +42030,6 @@ gt.bell.fish = [
         "The Jaws of Undeath"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 24
-    },
     "weather": [
       "Fog"
     ],
@@ -42993,10 +42497,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 2
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 28926,
@@ -43378,10 +42878,6 @@ gt.bell.fish = [
         "Moyebi Shrimp"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 8
-    },
     "hookset": "Precision Hookset",
     "tug": "Heavy",
     "id": 33318,
@@ -43508,10 +43004,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 14
-    },
     "weather": [
       "Gales"
     ],
@@ -43545,10 +43037,6 @@ gt.bell.fish = [
         "Short Bill Minnow"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 16
-    },
     "predator": [
       {
         "name": "Shadeshifter",
@@ -43716,10 +43204,6 @@ gt.bell.fish = [
         "Spearhead Squid"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 0
-    },
     "weather": [
       "Clouds"
     ],
@@ -44000,10 +43484,6 @@ gt.bell.fish = [
         "Hornhelm"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 6
-    },
     "weather": [
       "Dust Storms"
     ],
@@ -44033,10 +43513,6 @@ gt.bell.fish = [
         "Desert Dessert Frog"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 2
-    },
     "predator": [
       {
         "name": "Sand Egg",
@@ -44156,10 +43632,6 @@ gt.bell.fish = [
         "Desert Saw"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 10
-    },
     "weather": [
       "Heat Waves"
     ],
@@ -44308,10 +43780,6 @@ gt.bell.fish = [
         "Web-footed Sand Gecko"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 16
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -44641,10 +44109,6 @@ gt.bell.fish = [
         "Marble Nymph"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 8
-    },
     "weather": [
       "Rain"
     ],
@@ -44974,10 +44438,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 20,
-      "end": 0
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -45008,10 +44468,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 23,
-      "end": 24
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -45144,10 +44600,6 @@ gt.bell.fish = [
         "Marble Nymph"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 16
-    },
     "weather": [
       "Thunderstorms"
     ],
@@ -45403,10 +44855,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 7,
-      "end": 17
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -45818,10 +45266,6 @@ gt.bell.fish = [
         "Eryops"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 12
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 28071,
@@ -45851,10 +45295,6 @@ gt.bell.fish = [
         "Priest of Yx'Lokwa"
       ]
     ],
-    "during": {
-      "start": 10,
-      "end": 12
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 33243,
@@ -46013,7 +45453,7 @@ gt.bell.fish = [
       ]
     ],
     "during": {
-      "start": 17,
+      "start": 12,
       "end": 20
     },
     "weather": [
@@ -46170,10 +45610,6 @@ gt.bell.fish = [
         "Robber Ball"
       ]
     ],
-    "during": {
-      "start": 2,
-      "end": 12
-    },
     "weather": [
       "Fair Skies"
     ],
@@ -46232,10 +45668,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 24
-    },
     "weather": [
       "Fog"
     ],
@@ -46303,10 +45735,6 @@ gt.bell.fish = [
         "Baitbugs"
       ]
     ],
-    "during": {
-      "start": 2,
-      "end": 6
-    },
     "weather": [
       "Fog"
     ],
@@ -46339,10 +45767,6 @@ gt.bell.fish = [
         "Robber Ball"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 7
-    },
     "hookset": "Powerful Hookset",
     "tug": "Heavy",
     "id": 33324,
@@ -46722,10 +46146,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 12,
-      "end": 14
-    },
     "weather": [
       "Clear Skies",
       "Fair Skies"
@@ -46806,10 +46226,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 8,
-      "end": 10
-    },
     "weather": [
       "Clouds"
     ],
@@ -47080,10 +46496,6 @@ gt.bell.fish = [
         "Short Bill Minnow"
       ]
     ],
-    "during": {
-      "start": 22,
-      "end": 24
-    },
     "weather": [
       "Fair Skies"
     ],
@@ -47113,10 +46525,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 2
-    },
     "predator": [
       {
         "name": "Mora Tecta",
@@ -47247,10 +46655,6 @@ gt.bell.fish = [
         "Ancient Shrimp"
       ]
     ],
-    "during": {
-      "start": 16,
-      "end": 20
-    },
     "weather": [
       "Clouds"
     ],
@@ -47331,10 +46735,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 0,
-      "end": 3
-    },
     "weather": [
       "Clear Skies"
     ],
@@ -47468,10 +46868,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 6,
-      "end": 10
-    },
     "weather": [
       "Clouds"
     ],
@@ -47602,10 +46998,6 @@ gt.bell.fish = [
         "Squid Strip"
       ]
     ],
-    "during": {
-      "start": 18,
-      "end": 20
-    },
     "weather": [
       "Clear Skies"
     ],
